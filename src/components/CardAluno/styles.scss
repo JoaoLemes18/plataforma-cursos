@@ -32,3 +32,35 @@
     }
   }
 }
+
+// Responsividade
+@media (max-width: 768px) {
+  .aluno-card {
+    max-width: 100%;
+    margin: 15px;
+    padding: 15px;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .aluno-card {
+    padding: 10px;
+    margin: 12px;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+}
