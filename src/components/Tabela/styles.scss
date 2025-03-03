@@ -1,0 +1,32 @@
+.tabela-container {
+  width: 70%; /* Ajuste a largura conforme necessário */
+  margin: 0 auto; /* Centraliza a tabela */
+}
+
+.tabela {
+  width: 100%; /* A tabela vai ocupar toda a largura disponível do container */
+  border-collapse: collapse; /* Faz com que as bordas se juntem */
+  border-radius: 10px; /* Arredonda os cantos da tabela */
+  overflow: hidden; /* Garante que a borda arredondada seja respeitada */
+  border: 1px solid #ccc; /* Borda suave ao redor da tabela */
+}
+
+.tabela th,
+.tabela td {
+  padding: 15px;
+  text-align: left;
+  border: 1px solid #ddd; /* Borda suave nas células */
+}
+
+.tabela th {
+  background-color: #f45f2f;
+  color: white;
+}
+
+.tabela tr {
+  background-color: #f9f9f9; /* Cor de fundo clara para todas as linhas */
+}
+
+.tabela tr:hover {
+  background-color: #f1f1f1; /* Efeito de hover suave */
+}

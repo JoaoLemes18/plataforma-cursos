@@ -1,69 +1,81 @@
-.professores-container {
-  max-width: 800px;
-  margin: 0 auto;
+.page-cadastrar-professor {
   padding: 20px;
-  text-align: center;
+  font-family: Arial, sans-serif;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .back-button,
+    .view-button {
+      text-decoration: none;
+      color: #fff;
+      background: #f45f2f;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: 0.3s;
+      font-size: 14px;
+
+      &:hover {
+        background: #e04e1f;
+      }
+    }
+  }
 
   h2 {
-    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
   }
 
   .form-container {
-    background: #f5f5f5;
-    padding: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    padding: 20px;
     border-radius: 8px;
-    margin-bottom: 20px;
-
-    h3 {
-      margin-bottom: 10px;
-    }
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+
+      label {
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+      }
 
       input {
-        padding: 8px;
-        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 15px;
         border: 1px solid #ccc;
-        width: 100%;
+        border-radius: 5px;
+        transition: border-color 0.3s ease;
+
+        &:hover {
+          border-color: rgba(47, 43, 42, 0.5);
+          outline: none;
+          box-shadow: 0 0 5px rgba(47, 43, 42, 0.5);
+        }
       }
 
       button {
-        background: #f45f2f;
-        color: #fff;
         padding: 10px;
+        background: #f45f2f;
+        color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        transition: 0.3s;
+        transition: background 0.3s ease;
 
         &:hover {
           background: #e04e1f;
         }
       }
-    }
-  }
-
-  .professores-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-
-  .back-button {
-    display: block;
-    margin-top: 20px;
-    text-decoration: none;
-    color: #fff;
-    background: #f45f2f;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: 0.3s;
-
-    &:hover {
-      background: #e04e1f;
     }
   }
 }

@@ -1,0 +1,35 @@
+.page-listar-cursos {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    .back-button {
+      text-decoration: none;
+      color: #fff;
+      background: #f45f2f; /* Cor do botão de voltar igual ao restante */
+      padding: 10px 20px; /* Tamanho igual ao botão de cadastrar */
+      border-radius: 5px;
+      transition: 0.3s;
+      font-size: 14px;
+
+      &:hover {
+        background: #e04e1f;
+      }
+    }
+  }
+
+  h2 {
+    color: #333;
+    text-align: center;
+    margin-top: -50px;
+    margin-bottom: 50px;
+  }
+
+  .content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
