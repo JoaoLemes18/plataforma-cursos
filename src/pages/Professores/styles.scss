@@ -49,18 +49,57 @@
         margin-bottom: 5px;
       }
 
-      input {
+      input,
+      select {
         padding: 10px;
         margin-bottom: 15px;
         border: 1px solid #ccc;
         border-radius: 5px;
         transition: border-color 0.3s ease;
 
-        &:hover {
+        &:focus {
           border-color: rgba(47, 43, 42, 0.5);
           outline: none;
           box-shadow: 0 0 5px rgba(47, 43, 42, 0.5);
         }
+      }
+
+      select {
+        cursor: pointer; /* Aparece o ponteiro ao passar o mouse */
+        background-color: #fff;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        position: relative;
+        padding-right: 30px; /* Espaço para a seta */
+        transition: all 0.3s ease; /* Suaviza a transição do dropdown */
+      }
+
+      select::after {
+        content: "\25BC"; /* Seta para baixo */
+        font-size: 16px;
+        color: #f45f2f;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        transition: transform 0.3s ease; /* Transição para girar a seta */
+      }
+
+      select.open::after {
+        transform: translateY(-50%) rotate(180deg); /* Animação de rotação ao abrir */
+      }
+
+      select option {
+        padding: 10px;
+        background-color: #fff;
+        color: #333;
+        cursor: pointer;
+      }
+
+      select option:hover {
+        background-color: #f0f0f0;
       }
 
       button {

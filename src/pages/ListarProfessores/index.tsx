@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getProfessores, Professor } from "../../services/ProfessorService";
+import { getCursos, Curso } from "../../services/CursoService"; // Importando a função para buscar cursos
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
 import { FaArrowLeft } from "react-icons/fa";
@@ -8,14 +9,18 @@ import "./styles.scss";
 
 const ListarProfessores: React.FC = () => {
   const [professores, setProfessores] = useState<Professor[]>([]);
+  const [cursos, setCursos] = useState<Curso[]>([]); // Estado para armazenar os cursos
 
+  // Buscando dados de professores e cursos ao carregar o componente
   useEffect(() => {
     async function fetchData() {
       try {
         const professoresData = await getProfessores();
+        const cursosData = await getCursos(); // Buscando cursos
         setProfessores(professoresData);
+        setCursos(cursosData); // Atualizando o estado dos cursos
       } catch (error) {
-        console.error("Erro ao carregar professores:", error);
+        console.error("Erro ao carregar professores e cursos:", error);
       }
     }
     fetchData();

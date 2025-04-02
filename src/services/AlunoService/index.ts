@@ -1,4 +1,4 @@
-import { api } from "../API";
+import { api } from "..";
 
 // Tipagem do Aluno
 export interface Aluno {
@@ -6,7 +6,6 @@ export interface Aluno {
   nome: string;
   email: string;
   idade: number;
-  matricula: string;
 }
 
 // Service para Alunos

@@ -10,16 +10,16 @@ const Home: React.FC = () => {
 
       <div className="card-container">
         <CardLink
-          title="Cursos"
-          icon="📚"
-          description="Gerencie os cursos disponíveis."
-          to="/cursos"
-        />
-        <CardLink
           title="Alunos"
           icon="👨‍🎓"
           description="Visualize e gerencie os alunos."
           to="/alunos"
+        />
+        <CardLink
+          title="Cursos"
+          icon="📚"
+          description="Gerencie os cursos disponíveis."
+          to="/cursos"
         />
         <CardLink
           title="Professores"
@@ -31,5 +31,4 @@ const Home: React.FC = () => {
     </div>
   );
 };
-
 export default Home;

@@ -1,20 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createProfessor, Professor } from "../../services/ProfessorService";
+import CursoService from "../../services/CursoService"; // Corrigido a importação
 import { Link } from "react-router-dom";
 import "./styles.scss";
 import { FaArrowLeft } from "react-icons/fa"; // Ícone de seta para voltar
 
 const CadastrarProfessor: React.FC = () => {
-  const [newProfessor, setNewProfessor] = useState<Omit<Professor, "id">>({
+  const [newProfessor, setNewProfessor] = useState<
+    Omit<Professor, "id"> & { cursoId: number | null }
+  >({
     nome: "",
     email: "",
     idade: 0,
     areaEspecializacao: "",
+    cursoId: null, 
+    ProfessorCursos: [],
   });
+
+  const [cursos, setCursos] = useState<Curso[]>([]); // Estado para armazenar os cursos
+
+  // Buscar cursos ao carregar a página
+  useEffect(() => {
+    const fetchCursos = async () => {
+      try {
+        const cursosData = await CursoService.getAll(); // Chama o método getAll do CursoService
+        setCursos(cursosData);
+      } catch (error) {
+        console.error("Erro ao carregar cursos:", error);
+      }
+    };
+
+    fetchCursos();
+  }, []);
 
   // Atualiza os inputs do formulário
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewProfessor({ ...newProfessor, [e.target.name]: e.target.value });
+  };
+
+  // Atualiza o curso selecionado
+  const handleCursoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setNewProfessor({ ...newProfessor, cursoId: Number(e.target.value) });
   };
 
   // Cadastrar novo professor na API
@@ -25,7 +51,8 @@ const CadastrarProfessor: React.FC = () => {
       !newProfessor.nome ||
       !newProfessor.email ||
       !newProfessor.idade ||
-      !newProfessor.areaEspecializacao
+      !newProfessor.areaEspecializacao ||
+      newProfessor.cursoId === null
     ) {
       alert("Preencha todos os campos corretamente!");
       return;
@@ -39,6 +66,8 @@ const CadastrarProfessor: React.FC = () => {
         email: "",
         idade: 0,
         areaEspecializacao: "",
+        cursoId: null,
+        ProfessorCursos: [],
       });
     } catch (error) {
       console.error("Erro ao adicionar professor:", error);
@@ -97,6 +126,20 @@ const CadastrarProfessor: React.FC = () => {
             value={newProfessor.areaEspecializacao}
             onChange={handleInputChange}
           />
+
+          <label>Curso que vai administrar as aulas</label>
+          <select
+            name="cursoId"
+            value={newProfessor.cursoId ?? ""}
+            onChange={handleCursoChange}
+          >
+            <option value="">Selecione um curso</option>
+            {cursos.map((curso) => (
+              <option key={curso.id} value={curso.id}>
+                {curso.nome}
+              </option>
+            ))}
+          </select>
 
           <button type="submit">Cadastrar</button>
         </form>

@@ -25,7 +25,6 @@ const ListarAlunos: React.FC = () => {
     { title: "Nome", field: "nome" },
     { title: "Email", field: "email" },
     { title: "Idade", field: "idade" },
-    { title: "Matrícula", field: "matricula" },
   ];
 
   return (

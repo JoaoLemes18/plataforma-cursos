@@ -8,7 +8,7 @@ const CadastrarCurso: React.FC = () => {
   const [newCurso, setNewCurso] = useState({
     nome: "",
     descricao: "",
-    duracaoEmHoras: 0,
+    duracaoEmHoras: "",
   });
 
   // Atualiza os inputs do formulário
@@ -31,7 +31,7 @@ const CadastrarCurso: React.FC = () => {
       setNewCurso({
         nome: "",
         descricao: "",
-        duracaoEmHoras: 0,
+        duracaoEmHoras: "",
       });
     } catch (error) {
       console.error("Erro ao adicionar curso:", error);

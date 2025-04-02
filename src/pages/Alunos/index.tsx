@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AlunoService from "../../services/AlunoService";
+import AlunoService, { Aluno } from "../../services/AlunoService";
 import { Link } from "react-router-dom";
 import "./styles.scss";
 import { FaArrowLeft } from "react-icons/fa"; // Ícone de seta para voltar
@@ -9,7 +9,6 @@ const CadastrarAluno: React.FC = () => {
     nome: "",
     email: "",
     idade: 0,
-    matricula: "",
   });
 
   // Atualiza os inputs do formulário
@@ -21,24 +20,18 @@ const CadastrarAluno: React.FC = () => {
   const handleAddAluno = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !newAluno.nome ||
-      !newAluno.email ||
-      !newAluno.idade ||
-      !newAluno.matricula
-    ) {
+    if (!newAluno.nome || !newAluno.email || !newAluno.idade) {
       alert("Preencha todos os campos corretamente!");
       return;
     }
 
     try {
-      await AlunoService.create(aluno);
+      const alunoCadastrado = await AlunoService.create(newAluno); // Passando newAluno aqui
       alert("Aluno cadastrado com sucesso!");
       setNewAluno({
         nome: "",
         email: "",
         idade: 0,
-        matricula: "",
       });
     } catch (error) {
       console.error("Erro ao adicionar aluno:", error);
@@ -86,15 +79,6 @@ const CadastrarAluno: React.FC = () => {
             name="idade"
             placeholder="Digite a idade"
             value={newAluno.idade}
-            onChange={handleInputChange}
-          />
-
-          <label>Matricula do Aluno</label>
-          <input
-            type="text"
-            name="matricula"
-            placeholder="Digite o matricula"
-            value={newAluno.matricula}
             onChange={handleInputChange}
           />
 

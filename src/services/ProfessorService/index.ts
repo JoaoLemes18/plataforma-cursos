@@ -1,4 +1,4 @@
-import { api } from "../API";
+import { api } from "..";
 
 export interface Professor {
   id: number;
@@ -12,18 +12,10 @@ export interface Professor {
 export const getProfessores = async (): Promise<Professor[]> => {
   try {
     const response = await api.get("/professor/");
-
-    console.log("Resposta da API:", response.data); // Debug: veja o formato da resposta
-
-    // Garante que seja sempre um array
-    if (response.data && Array.isArray(response.data.professores)) {
-      return response.data.professores;
-    }
-
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error("Erro ao buscar professores:", error);
-    return []; // Retorna um array vazio em caso de erro
+    return [];
   }
 };
 
@@ -49,20 +41,6 @@ export const createProfessor = async (
     return response.data;
   } catch (error) {
     console.error("Erro ao cadastrar professor:", error);
-    return null;
-  }
-};
-
-// Atualizar um professor existente
-export const updateProfessor = async (
-  id: number,
-  professor: Omit<Professor, "id">
-): Promise<Professor | null> => {
-  try {
-    const response = await api.put<Professor>(`/professor/${id}`, professor);
-    return response.data;
-  } catch (error) {
-    console.error(`Erro ao atualizar professor com ID ${id}:`, error);
     return null;
   }
 };

@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Cursos from "../pages/Cursos";
 import Alunos from "../pages/Alunos";
 import Professores from "../pages/Professores";
+
 import ListarProfessores from "../pages/ListarProfessores";
 import ListarAlunos from "../pages/ListarAlunos";
 import ListarCursos from "../pages/ListarCursos";

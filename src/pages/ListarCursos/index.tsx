@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CursoService from "../../services/CursoService"; // Importando CursoService
+import CursoService, { Curso } from "../../services/CursoService"; // Importando CursoService
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
 import { FaArrowLeft } from "react-icons/fa";

@@ -1,13 +1,13 @@
-import { api } from "../API";
+// src/services/CursoService.ts
+
+import { api } from "..";
 
 // Tipagem do Curso
 export interface Curso {
   id: number;
   nome: string;
   descricao: string;
-  duracaoEmHoras: number;
-  alunos: unknown[]; // caso precise listar alunos, ou deixe vazio
-  professores: unknown[]; // caso precise listar professores, ou deixe vazio
+  duracaoEmHoras: string;
 }
 
 // Service para Cursos
@@ -18,7 +18,7 @@ const CursoService = {
       const response = await api.get<Curso[]>("/curso");
       return response.data;
     } catch (error) {
-      console.error("Erro ao buscar curso:", error);
+      console.error("Erro ao buscar cursos:", error);
       throw error;
     }
   },
@@ -66,5 +66,7 @@ const CursoService = {
     }
   },
 };
+
+export const getCursos = CursoService.getAll;
 
 export default CursoService;
