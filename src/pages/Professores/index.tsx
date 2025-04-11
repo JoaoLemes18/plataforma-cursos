@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
 import { createProfessor, Professor } from "../../services/ProfessorService";
-import CursoService from "../../services/CursoService"; // Corrigido a importação
+import CursoService from "../../services/CursoService"; // Certifique-se que a importação está correta
 import { Link } from "react-router-dom";
 import "./styles.scss";
 import { FaArrowLeft } from "react-icons/fa"; // Ícone de seta para voltar
+
+// Definição do tipo Curso
+interface Curso {
+  id: number;
+  nome: string;
+}
 
 const CadastrarProfessor: React.FC = () => {
   const [newProfessor, setNewProfessor] = useState<
@@ -13,8 +19,7 @@ const CadastrarProfessor: React.FC = () => {
     email: "",
     idade: 0,
     areaEspecializacao: "",
-    cursoId: null, 
-    ProfessorCursos: [],
+    cursoId: null, // Inicializa como null para evitar problemas
   });
 
   const [cursos, setCursos] = useState<Curso[]>([]); // Estado para armazenar os cursos
@@ -23,7 +28,7 @@ const CadastrarProfessor: React.FC = () => {
   useEffect(() => {
     const fetchCursos = async () => {
       try {
-        const cursosData = await CursoService.getAll(); // Chama o método getAll do CursoService
+        const cursosData = await CursoService.getAll(); // Chama o método correto
         setCursos(cursosData);
       } catch (error) {
         console.error("Erro ao carregar cursos:", error);
@@ -40,7 +45,8 @@ const CadastrarProfessor: React.FC = () => {
 
   // Atualiza o curso selecionado
   const handleCursoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setNewProfessor({ ...newProfessor, cursoId: Number(e.target.value) });
+    const selectedCursoId = e.target.value ? Number(e.target.value) : null;
+    setNewProfessor({ ...newProfessor, cursoId: selectedCursoId });
   };
 
   // Cadastrar novo professor na API
@@ -54,7 +60,7 @@ const CadastrarProfessor: React.FC = () => {
       !newProfessor.areaEspecializacao ||
       newProfessor.cursoId === null
     ) {
-      alert("Preencha todos os campos corretamente!");
+      alert("Preencha todos os campos corretamente e selecione um curso!");
       return;
     }
 
@@ -67,10 +73,12 @@ const CadastrarProfessor: React.FC = () => {
         idade: 0,
         areaEspecializacao: "",
         cursoId: null,
-        ProfessorCursos: [],
       });
     } catch (error) {
       console.error("Erro ao adicionar professor:", error);
+      alert(
+        "Erro ao cadastrar professor. Verifique os dados e tente novamente."
+      );
     }
   };
 

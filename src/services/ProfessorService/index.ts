@@ -6,6 +6,7 @@ export interface Professor {
   email: string;
   idade: number;
   areaEspecializacao: string;
+  cursoId: number;
 }
 
 // Buscar todos os professores
