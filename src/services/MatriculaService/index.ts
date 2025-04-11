@@ -1,5 +1,6 @@
 import { api } from "..";
 
+// Tipagem da Matrícula
 export interface Matricula {
   id: number;
   alunoId: number;
@@ -14,18 +15,18 @@ export interface NovaMatricula {
   status: number;
 }
 
-// Buscar todas as matrículas
+// 📌 Buscar todas as matrículas
 export const getMatriculas = async (): Promise<Matricula[]> => {
   try {
-    const response = await api.get("/matricula");
-    return Array.isArray(response.data) ? response.data : [];
+    const response = await api.get<Matricula[]>("/matricula");
+    return response.data;
   } catch (error) {
     console.error("Erro ao buscar matrículas:", error);
     return [];
   }
 };
 
-// Buscar uma matrícula pelo ID
+// 📌 Buscar uma matrícula pelo ID
 export const getMatriculaById = async (
   id: number
 ): Promise<Matricula | null> => {
@@ -38,7 +39,7 @@ export const getMatriculaById = async (
   }
 };
 
-// Criar uma nova matrícula
+// 📌 Criar uma nova matrícula
 export const createMatricula = async (
   matricula: NovaMatricula
 ): Promise<Matricula | null> => {
@@ -51,10 +52,10 @@ export const createMatricula = async (
   }
 };
 
-// Atualizar uma matrícula
+// 📌 Atualizar matrícula completa (PUT)
 export const updateMatricula = async (
   id: number,
-  matricula: Partial<NovaMatricula>
+  matricula: Partial<Matricula>
 ): Promise<Matricula | null> => {
   try {
     const response = await api.put<Matricula>(`/matricula/${id}`, matricula);
@@ -65,7 +66,21 @@ export const updateMatricula = async (
   }
 };
 
-// Excluir uma matrícula
+// 📌 Atualizar **somente o status** da matrícula (PATCH)
+export const updateMatriculaStatus = async (
+  id: number,
+  status: number
+): Promise<boolean> => {
+  try {
+    await api.patch(`/matricula/${id}/status`, { status });
+    return true;
+  } catch (error) {
+    console.error(`Erro ao atualizar status da matrícula com ID ${id}:`, error);
+    return false;
+  }
+};
+
+// 📌 Excluir uma matrícula
 export const deleteMatricula = async (id: number): Promise<boolean> => {
   try {
     await api.delete(`/matricula/${id}`);
