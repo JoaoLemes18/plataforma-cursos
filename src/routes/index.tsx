@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Cursos from "../pages/Cursos";
 import Alunos from "../pages/Alunos";
+import AlunosPorCurso from "../pages/AlunosCurso";
 import Professores from "../pages/Professores";
 import Matricula from "../pages/Matricula";
 
@@ -24,7 +25,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/listar-professores" element={<ListarProfessores />} />
         <Route path="/listar-alunos" element={<ListarAlunos />} />
         <Route path="/listar-cursos" element={<ListarCursos />} />
-        <Route path="listar-matriculas" element={<ListarMatriculas />} />
+        <Route path="/listar-matriculas" element={<ListarMatriculas />} />
+        <Route path="/alunos-curso" element={<AlunosPorCurso />} />
       </Routes>
     </Router>
   );

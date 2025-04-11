@@ -28,10 +28,16 @@ const Home: React.FC = () => {
           to="/professores"
         />
         <CardLink
-          title="Matrículas"
+          title="Matrícula"
           icon="📝"
           description="Acompanhe as matrículas dos alunos e gerencie os status."
           to="/matricula"
+        />
+        <CardLink
+          title="Alunos por Curso"
+          icon="📋"
+          description="Veja quais alunos estão matriculados em quais cursos."
+          to="/alunos-curso"
         />
       </div>
     </div>

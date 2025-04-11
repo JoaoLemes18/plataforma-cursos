@@ -2,6 +2,9 @@ import { api } from "..";
 
 // Tipagem da Matrícula
 export interface Matricula {
+  statusTexto: any;
+  alunoNome: any;
+  cursoNome: any;
   id: number;
   alunoId: number;
   cursoId: number;
