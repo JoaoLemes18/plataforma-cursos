@@ -10,7 +10,7 @@ import "./style.scss";
 const ListarMatriculas: React.FC = () => {
   const [matriculas, setMatriculas] = useState<Matricula[]>([]);
   const [alunos, setAlunos] = useState<Record<number, string>>({});
-  const [cursos, setCursos] = useState<string[]>([]); // Alterado para armazenar nomes dos cursos
+  const [cursos, setCursos] = useState<string[]>([]); 
   const [filtroCurso, setFiltroCurso] = useState<string>("");
   const [filtroStatus, setFiltroStatus] = useState<string>("");
 
