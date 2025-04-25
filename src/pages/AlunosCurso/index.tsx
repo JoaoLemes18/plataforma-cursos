@@ -10,7 +10,7 @@ import "./style.scss";
 const ListarMatriculas: React.FC = () => {
   const [matriculas, setMatriculas] = useState<Matricula[]>([]);
   const [alunos, setAlunos] = useState<Record<number, string>>({});
-  const [cursos, setCursos] = useState<string[]>([]); 
+  const [cursos, setCursos] = useState<string[]>([]);
   const [filtroCurso, setFiltroCurso] = useState<string>("");
   const [filtroStatus, setFiltroStatus] = useState<string>("");
 
@@ -30,7 +30,7 @@ const ListarMatriculas: React.FC = () => {
             {}
           )
         );
-        setCursos(cursosData.map((curso) => curso.nome)); // Agora armazenamos nomes
+        setCursos(cursosData.map((curso) => curso.nome)); 
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       }
@@ -66,7 +66,7 @@ const ListarMatriculas: React.FC = () => {
   return (
     <div className="page-listar-matriculas">
       <div className="header">
-        <Link to="/matricula" className="back-button">
+        <Link to="/" className="back-button">
           <FaArrowLeft />
         </Link>
       </div>
