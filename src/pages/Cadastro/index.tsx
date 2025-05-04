@@ -9,7 +9,7 @@ const Cadastro: React.FC = () => {
     cpf: "",
     email: "",
     telefone: "",
-    tipo: 1,   // Aluno = 1
+    tipo: 1, // Aluno = 1
     senha: "",
   });
 
@@ -36,7 +36,7 @@ const Cadastro: React.FC = () => {
     // Atualiza os dados do formulário com o tipo como número
     setFormData({
       ...formData,
-      [name]: name === "tipo" ? parseInt(value) : value,  // Armazena o tipo como número
+      [name]: name === "tipo" ? parseInt(value) : value, // Armazena o tipo como número
     });
   };
 
@@ -50,7 +50,7 @@ const Cadastro: React.FC = () => {
         cpf: formData.cpf,
         email: formData.email,
         telefone: formData.telefone,
-        tipoUsuario: formData.tipo,  // Envia tipo como número
+        tipoUsuario: formData.tipo, // Envia tipo como número
         senha: formData.senha,
       };
 
@@ -127,21 +127,17 @@ const Cadastro: React.FC = () => {
           </span>
         </div>
 
-        <button
-          className="button"
-          onClick={handleRegister}
-          disabled={loading}
-        >
+        <button className="button" onClick={handleRegister} disabled={loading}>
           {loading ? "Cadastrando..." : "Criar conta"}
         </button>
 
         {error && <p className="errorText">{error}</p>}
 
-        <p className="linkText">Já tem uma conta?</p>
-        <button
-          className="secondaryButton"
-          onClick={() => setShowLogin(true)}
-        >
+        <div className="divider">
+          <span className="linkText">Já tem uma conta?</span>
+        </div>
+
+        <button className="secondaryButton" onClick={() => setShowLogin(true)}>
           Fazer login
         </button>
       </div>

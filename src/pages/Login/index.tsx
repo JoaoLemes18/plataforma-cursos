@@ -76,7 +76,9 @@ const Login: React.FC = () => {
         <button className="button" onClick={handleLogin} disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
         </button>
-        <p className="linkText">Novo por aqui?</p>
+        <div className="divider">
+          <span className="linkText">Novo por aqui?</span>
+        </div>
         <button
           className="secondaryButton"
           onClick={() => setShowRegister(true)}

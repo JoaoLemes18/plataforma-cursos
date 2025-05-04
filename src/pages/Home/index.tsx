@@ -1,10 +1,14 @@
 import React from "react";
 import CardLink from "../../components/Card";
 import "./styles.scss";
+import UserInfo from "../../components/UserInfo";
 
 const Home: React.FC = () => {
   return (
     <div className="home-container">
+      <div className="user-info-container">
+        <UserInfo />
+      </div>
       <h2>Bem-vindo à Gestão Acadêmica</h2>
       <p>Escolha uma opção abaixo:</p>
 

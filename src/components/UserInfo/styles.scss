@@ -1,0 +1,25 @@
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  .user-icon {
+    margin-right: 22px;
+  }
+
+  .user-details {
+    display: flex;
+    flex-direction: column;
+
+    .user-name {
+      color: #121212;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-family: "Lato", sans-serif;
+      margin-right: 74px;
+    }
+
+    .user-code {
+      color: #f05623; /* Verde */
+    }
+  }
+}

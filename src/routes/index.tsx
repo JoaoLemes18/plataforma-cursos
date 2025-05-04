@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Cadastro from "../pages/Cadastro";
 import Login from "../pages/Login";
 
@@ -19,7 +20,7 @@ const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Cadastro />} />
         <Route path="/cadastrar" element={<Cadastro />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
