@@ -14,37 +14,38 @@ const Home: React.FC = () => {
 
       <div className="card-container">
         <CardLink
-          title="Alunos"
-          icon="👨‍🎓"
-          description="Visualize, edite e organize os dados dos alunos cadastrados."
-          to="/alunos"
+          title="Painel do Aluno"
+          icon="🎓"
+          description="Acesse as informações acadêmicas e desempenho do aluno."
+          to="/painel-aluno"
         />
         <CardLink
-          title="Cursos"
-          icon="📚"
-          description="Crie, edite e gerencie os cursos oferecidos pela instituição."
-          to="/cursos"
+          title="Painel do Professor"
+          icon="🧑‍🏫"
+          description="Acesse as turmas, notas lançadas e informações do professor."
+          to="/painel-professor"
         />
         <CardLink
-          title="Professores"
-          icon="👩‍🏫"
-          description="Veja os professores cadastrados e seus respectivos cursos."
-          to="/professores"
+          title="Painel do Coordenador"
+          icon="🗂️"
+          description="Gerencie cursos, turmas, professores e desempenho geral."
+          to="/painel-coordenador"
         />
         <CardLink
-          title="Matrícula"
-          icon="📝"
-          description="Acompanhe as matrículas dos alunos e gerencie os status."
-          to="/matricula"
+          title="Painel do Financeiro"
+          icon="💰"
+          description="Acompanhe dados financeiros, mensalidades e cobranças."
+          to="/painel-financeiro"
         />
         <CardLink
-          title="Alunos por Curso"
-          icon="📋"
-          description="Veja quais alunos estão matriculados em quais cursos."
-          to="/alunos-curso"
+          title="Painel Administrativo"
+          icon="🛠️"
+          description="Acesse funções administrativas e de apoio à gestão."
+          to="/painel-administrativo"
         />
       </div>
     </div>
   );
 };
+
 export default Home;

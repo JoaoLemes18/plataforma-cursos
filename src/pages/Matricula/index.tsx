@@ -73,7 +73,7 @@ const CadastrarMatricula: React.FC = () => {
   return (
     <div className="page-cadastrar-matricula">
       <div className="header">
-        <Link to="/" className="back-button">
+        <Link to="/home" className="back-button">
           <FaArrowLeft />
         </Link>
         <Link to="/listar-matriculas" className="view-button">

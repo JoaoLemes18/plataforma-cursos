@@ -10,6 +10,10 @@ import Alunos from "../pages/Alunos";
 import AlunosPorCurso from "../pages/AlunosCurso";
 import Professores from "../pages/Professores";
 import Matricula from "../pages/Matricula";
+import PainelAluno from "../pages/Painel-Aluno";
+import PainelCoordenador from "../pages/Painel-Coordenador";
+import PainelProfessor from "../pages/Painel-Professor";
+import PainelFinanceiro from "../pages/Painel-Financeiro";
 
 import ListarProfessores from "../pages/ListarProfessores";
 import ListarAlunos from "../pages/ListarAlunos";
@@ -24,6 +28,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/cadastrar" element={<Cadastro />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
+
         <Route path="/cursos" element={<Cursos />} />
         <Route path="/alunos" element={<Alunos />} />
         <Route path="/professores" element={<Professores />} />
@@ -33,6 +38,11 @@ const AppRoutes: React.FC = () => {
         <Route path="/listar-cursos" element={<ListarCursos />} />
         <Route path="/listar-matriculas" element={<ListarMatriculas />} />
         <Route path="/alunos-curso" element={<AlunosPorCurso />} />
+
+        <Route path="/painel-aluno" element={<PainelAluno />} />
+        <Route path="/painel-coordenador" element={<PainelCoordenador />} />
+        <Route path="/painel-professor" element={<PainelProfessor />} />
+        <Route path="/painel-financeiro" element={<PainelFinanceiro />} />
       </Routes>
     </Router>
   );
