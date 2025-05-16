@@ -2,10 +2,15 @@ import React from "react";
 import CardLink from "../../components/Card";
 import "./styles.scss";
 import UserInfo from "../../components/UserInfo";
+import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 const PainelCoordenador: React.FC = () => {
   return (
     <div className="home-container">
+      <Link to="/home" className="back-button">
+        <FaArrowLeft />
+      </Link>
       <div className="user-info-container">
         <UserInfo />
       </div>

@@ -8,7 +8,7 @@ const PainelFinanceiro: React.FC = () => {
       <div className="user-info-container">
         <UserInfo />
       </div>
-      <h2>Bem-vindo ao Painel do Aluno</h2>
+      <h2>Bem-vindo ao Painel do Financeiro</h2>
       <p>Escolha uma opção abaixo:</p>
     </div>
   );

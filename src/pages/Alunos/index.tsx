@@ -42,7 +42,7 @@ const CadastrarAluno: React.FC = () => {
     <div className="page-cadastrar-aluno">
       {/* Header com botão de voltar e botão de ver alunos */}
       <div className="header">
-        <Link to="/" className="back-button">
+        <Link to="/painel-coordenador" className="back-button">
           <FaArrowLeft />
         </Link>
 

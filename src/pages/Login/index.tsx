@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { loginPessoa } from "../../services/AutenticacaoService"; // Importando o serviço de login
 import Register from "../Cadastro";
-import { toast } from "react-toastify"; // Importando o toast
-import "react-toastify/dist/ReactToastify.css"; // Estilos do toast
 import "./styles.scss";
 
 const Login: React.FC = () => {
@@ -18,27 +16,29 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      // Chama o serviço de login
-      const token = await loginPessoa(payload);
+      const response = await loginPessoa(payload);
 
-      if (token) {
-        // Supondo que a API retorne um token após login bem-sucedido
-        console.log("Login bem-sucedido! Token:", token);
-        // Armazenar o token, redirecionar ou realizar alguma outra ação
-        localStorage.setItem("token", token); // Exemplo de armazenamento no localStorage
-        // Redirecionando para a página "home"
-        window.location.href = "/home"; // Redireciona para a página Home
-        toast.success("Login realizado com sucesso!"); // Toast de sucesso
+      // Verifique a resposta e se o tipoUsuario existe na resposta
+      console.log("Resposta da API:", response); // Verifique a resposta
+      if (response && response.tipoUsuario !== undefined) {
+        console.log(
+          "Login bem-sucedido! Tipo de usuário:",
+          response.tipoUsuario
+        );
+
+        // Redireciona para a página "home" ou outra página dependendo do tipo de usuário
+        // Aqui você pode adicionar redirecionamento condicional com base no tipo de usuário
+        if (response.tipoUsuario === 2) {
+          window.location.href = "/home"; // Redireciona para a página "home" para o tipo de usuário 2
+        } else {
+          console.log("Tipo de usuário não suportado.");
+        }
       } else {
-        toast.error("Credenciais inválidas. Tente novamente."); // Toast de erro
+        console.error("Resposta inválida:", response); // Se 'tipoUsuario' não estiver presente
       }
     } catch (err) {
       console.error("Erro no login:", err);
-      if (err.response?.status === 401) {
-        toast.error("Credenciais inválidas. Verifique seu e-mail e senha.");
-      } else {
-        toast.error("Erro ao realizar login. Tente novamente.");
-      }
+      alert("Erro ao realizar login. Tente novamente.");
     } finally {
       setLoading(false);
     }

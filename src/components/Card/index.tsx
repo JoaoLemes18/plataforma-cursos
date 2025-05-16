@@ -7,6 +7,7 @@ interface CardLinkProps {
   icon: string;
   description: string;
   to: string;
+  className?: string; // className opcional
 }
 
 const CardLink: React.FC<CardLinkProps> = ({
@@ -14,9 +15,12 @@ const CardLink: React.FC<CardLinkProps> = ({
   icon,
   description,
   to,
+  className = "", // Garantir que tenha um valor padrão vazio
 }) => {
   return (
-    <Link to={to} className="card-link">
+    <Link to={to} className={`card-link ${className}`}>
+      {" "}
+      {/* Aplica a className */}
       <div className="card-content">
         <span className="card-icon">{icon}</span>
         <h3>{title}</h3>

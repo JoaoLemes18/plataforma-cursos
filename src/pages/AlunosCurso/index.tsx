@@ -30,7 +30,7 @@ const ListarMatriculas: React.FC = () => {
             {}
           )
         );
-        setCursos(cursosData.map((curso) => curso.nome)); 
+        setCursos(cursosData.map((curso) => curso.nome));
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       }
@@ -66,7 +66,7 @@ const ListarMatriculas: React.FC = () => {
   return (
     <div className="page-listar-matriculas">
       <div className="header">
-        <Link to="/" className="back-button">
+        <Link to="/painel-coordenador" className="back-button">
           <FaArrowLeft />
         </Link>
       </div>

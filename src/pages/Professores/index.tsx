@@ -86,7 +86,7 @@ const CadastrarProfessor: React.FC = () => {
     <div className="page-cadastrar-professor">
       {/* Header com botão de voltar e botão de ver professores */}
       <div className="header">
-        <Link to="/" className="back-button">
+        <Link to="/painel-coordenador" className="back-button">
           <FaArrowLeft />
         </Link>
 
