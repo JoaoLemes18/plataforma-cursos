@@ -93,6 +93,15 @@
   color: #666;
   font-size: 0.875rem;
 }
+.input.erro {
+  border: 1px solid red;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+}
+
+.input.erro:focus {
+  border-color: red;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.3);
+}
 
 .passwordWrapper {
   position: relative;

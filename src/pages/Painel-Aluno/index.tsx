@@ -14,12 +14,6 @@ const PainelAluno: React.FC = () => {
 
       <div className="card-container">
         <CardLink
-          title="Notas"
-          icon="📊"
-          description="Consulte suas notas e desempenho nas disciplinas."
-          to="/aluno/notas"
-        />
-        <CardLink
           title="Material de Apoio"
           icon="📘"
           description="Acesse materiais de estudo disponibilizados pelos professores."

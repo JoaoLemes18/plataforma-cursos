@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   margin-left: 10px;
+
   .user-icon {
     margin-right: 22px;
   }
@@ -19,7 +20,25 @@
     }
 
     .user-code {
-      color: #f05623; /* Verde */
+      color: #f05623; /* Laranja */
+    }
+  }
+
+  .logout-button {
+    background-color: transparent;
+    border: 1px solid #ff0000;
+    color: #ff0000; /* vermelho */
+    padding: 5px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 600;
+    font-family: "Lato", sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    margin-left: auto;
+
+    &:hover {
+      background-color: #cc0000; /* vermelho escuro */
+      color: white;
     }
   }
 }

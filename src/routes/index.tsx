@@ -20,6 +20,8 @@ import ListarAlunos from "../pages/ListarAlunos";
 import ListarCursos from "../pages/ListarCursos";
 import ListarMatriculas from "../pages/ListarMatriculas";
 
+import AcessoNegado from "../pages/AcessoNegado";
+
 const AppRoutes: React.FC = () => {
   return (
     <Router>
@@ -40,9 +42,14 @@ const AppRoutes: React.FC = () => {
         <Route path="/alunos-curso" element={<AlunosPorCurso />} />
 
         <Route path="/painel-aluno" element={<PainelAluno />} />
+
+
         <Route path="/painel-coordenador" element={<PainelCoordenador />} />
+
         <Route path="/painel-professor" element={<PainelProfessor />} />
         <Route path="/painel-financeiro" element={<PainelFinanceiro />} />
+
+        <Route path="/acesso-negado" element={<AcessoNegado />} />
       </Routes>
     </Router>
   );

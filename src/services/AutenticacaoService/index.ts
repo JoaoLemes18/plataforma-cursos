@@ -26,18 +26,19 @@ export interface LoginPessoa {
   senha: string;
 }
 
-// 📌 Cadastrar uma nova pessoa
-export const cadastrarPessoa = async (pessoa: NovaPessoa): Promise<void> => {
+export const cadastrarPessoa = async (pessoa: NovaPessoa): Promise<any> => {
   try {
     const response = await api.post("/pessoa/cadastrar", pessoa);
     console.log("Cadastro realizado com sucesso:", response.data);
+    return response.data; // retorna o que o backend retornou
   } catch (error) {
     console.error("Erro ao cadastrar pessoa:", error);
+    throw error; // lança o erro para ser tratado no frontend
   }
 };
 
 // 📌 Fazer login de uma pessoa
-export const loginPessoa = async (login: { email: string; senha: string; }) => {
+export const loginPessoa = async (login: { email: string; senha: string }) => {
   try {
     const response = await api.post("/pessoa/login", login);
     console.log("Resposta da API:", response); // Log da resposta completa
