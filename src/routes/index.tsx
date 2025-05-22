@@ -1,15 +1,18 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import Cadastro from "../pages/Cadastro";
 import Login from "../pages/Login";
 
 import Home from "../pages/Home";
 import Cursos from "../pages/Cursos";
+
+import Comunicado from "../pages/Comunicado";
 import AlunosPorCurso from "../pages/AlunosCurso";
 import Turmas from "../pages/Turmas";
 import Matricula from "../pages/Matricula";
 import PainelAluno from "../pages/Painel-Aluno";
+
 import PainelCoordenador from "../pages/Painel-Coordenador";
 import PainelProfessor from "../pages/Painel-Professor";
 import PainelFinanceiro from "../pages/Painel-Financeiro";
@@ -23,32 +26,29 @@ import AcessoNegado from "../pages/AcessoNegado";
 
 const AppRoutes: React.FC = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Cadastro />} />
-        <Route path="/cadastrar" element={<Cadastro />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
+    <Routes>
+      <Route path="/" element={<Cadastro />} />
+      <Route path="/cadastrar" element={<Cadastro />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/home" element={<Home />} />
 
-        <Route path="/cursos" element={<Cursos />} />
-        <Route path="/turmas" element={<Turmas />} />
-        <Route path="/matricula" element={<Matricula />} />
-        <Route path="/listar-professores" element={<ListarProfessores />} />
-        <Route path="/listar-alunos" element={<ListarAlunos />} />
-        <Route path="/listar-cursos" element={<ListarCursos />} />
-        <Route path="/listar-matriculas" element={<ListarMatriculas />} />
-        <Route path="/alunos-curso" element={<AlunosPorCurso />} />
+      <Route path="/cursos" element={<Cursos />} />
+      <Route path="/turmas" element={<Turmas />} />
+      <Route path="/matricula" element={<Matricula />} />
+      <Route path="/comunicado" element={<Comunicado />} />
+      <Route path="/listar-professores" element={<ListarProfessores />} />
+      <Route path="/listar-alunos" element={<ListarAlunos />} />
+      <Route path="/listar-cursos" element={<ListarCursos />} />
+      <Route path="/listar-matriculas" element={<ListarMatriculas />} />
+      <Route path="/alunos-curso" element={<AlunosPorCurso />} />
 
-        <Route path="/painel-aluno" element={<PainelAluno />} />
+      <Route path="/painel-aluno" element={<PainelAluno />} />
+      <Route path="/painel-coordenador" element={<PainelCoordenador />} />
+      <Route path="/painel-professor" element={<PainelProfessor />} />
+      <Route path="/painel-financeiro" element={<PainelFinanceiro />} />
 
-        <Route path="/painel-coordenador" element={<PainelCoordenador />} />
-
-        <Route path="/painel-professor" element={<PainelProfessor />} />
-        <Route path="/painel-financeiro" element={<PainelFinanceiro />} />
-
-        <Route path="/acesso-negado" element={<AcessoNegado />} />
-      </Routes>
-    </Router>
+      <Route path="/acesso-negado" element={<AcessoNegado />} />
+    </Routes>
   );
 };
 

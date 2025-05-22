@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  getMatriculas,
-  updateMatriculaStatus,
-  Matricula,
-} from "../../services/MatriculaService";
+import MatriculaService from "../../services/MatriculaService";
+import type { Matricula } from "../../types"; // ajustar conforme seu arquivo de tipos
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
 import { FaArrowLeft, FaEdit } from "react-icons/fa";
@@ -26,7 +23,7 @@ const ListarMatriculas: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const matriculasData = await getMatriculas();
+        const matriculasData = await MatriculaService.getAll();
         setMatriculas(matriculasData);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
@@ -50,7 +47,7 @@ const ListarMatriculas: React.FC = () => {
     if (!matriculaSelecionada) return;
 
     try {
-      await updateMatriculaStatus(matriculaSelecionada.id, novoStatus);
+      await MatriculaService.editarStatus(matriculaSelecionada.id, novoStatus);
       setMatriculas((prev) =>
         prev.map((mat) =>
           mat.id === matriculaSelecionada.id
@@ -63,7 +60,6 @@ const ListarMatriculas: React.FC = () => {
       console.error("Erro ao atualizar matrícula:", error);
     }
   };
-
   return (
     <div className="page-listar-matriculas">
       <div className="header">

@@ -1,4 +1,3 @@
-// src/services/MatriculaService.ts
 import { api } from "..";
 import type { Matricula, NovaMatricula } from "../../types";
 

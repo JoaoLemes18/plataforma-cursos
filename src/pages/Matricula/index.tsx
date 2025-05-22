@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createMatricula } from "../../services/MatriculaService";
+import createMatricula from "../../services/MatriculaService";
 import PessoaService from "../../services/PessoaService";
 import TurmaService from "../../services/TurmaService";
 import { Link } from "react-router-dom";
@@ -37,7 +37,7 @@ const CadastrarMatricula: React.FC = () => {
     const fetchData = async () => {
       try {
         const alunosData = await PessoaService.getAlunos();
-        const turmasData = await TurmaService.getTurmas();
+        const turmasData = await TurmaService.getAll();
 
         setAlunos(alunosData);
         setTurmas(turmasData);
@@ -65,11 +65,12 @@ const CadastrarMatricula: React.FC = () => {
     }
 
     try {
-      await createMatricula({
-        pessoaId: Number(newMatricula.pessoaId), // aqui mudou
+      await createMatricula.cadastrar({
+        pessoaId: Number(newMatricula.pessoaId),
         turmaId: Number(newMatricula.turmaId),
         status: newMatricula.status,
       });
+
       alert("Matrícula realizada com sucesso!");
       setNewMatricula({ pessoaId: "", turmaId: "", status: 1 }); // resetou o campo também
     } catch (error) {

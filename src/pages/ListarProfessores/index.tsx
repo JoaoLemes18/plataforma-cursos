@@ -1,11 +1,23 @@
 import { useEffect, useState } from "react";
-import PessoaService, { Pessoa } from "../../services/PessoaService";
-import { getCursos, Curso } from "../../services/CursoService";
+import PessoaService from "../../services/PessoaService";
+import CursoService from "../../services/CursoService";
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
 import { FaArrowLeft } from "react-icons/fa";
 
 import "./styles.scss";
+
+interface Pessoa {
+  id: number;
+  nome: string;
+  email: string;
+  cursoId?: number;
+}
+
+interface Curso {
+  id: number;
+  nome: string;
+}
 
 const ListarProfessores: React.FC = () => {
   const [professores, setProfessores] = useState<Pessoa[]>([]);
@@ -15,7 +27,7 @@ const ListarProfessores: React.FC = () => {
     async function fetchData() {
       try {
         const professoresData = await PessoaService.getProfessores();
-        const cursosData = await getCursos();
+        const cursosData = await CursoService.getAll();
 
         setProfessores(professoresData);
         setCursos(cursosData);
@@ -33,7 +45,7 @@ const ListarProfessores: React.FC = () => {
 
   const professoresComCurso = professores.map((prof) => ({
     ...prof,
-    cursoNome: cursoMap[prof.cursoId] || "Não informado", // Assumindo que Pessoa tem cursoId
+    cursoNome: prof.cursoId ? cursoMap[prof.cursoId] : "Não informado",
   }));
 
   const colunas = [

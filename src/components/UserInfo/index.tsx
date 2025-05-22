@@ -16,6 +16,7 @@ const UserInfo = () => {
 
   const handleLogout = () => {
     setUsuario(null); // limpa usuário do contexto e sessionStorage
+    sessionStorage.removeItem("comunicadoVisualizado"); // limpa o comunicado visualizado
     window.location.href = "/login"; // redireciona para login
   };
 

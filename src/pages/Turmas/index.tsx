@@ -100,7 +100,7 @@ const Turmas: React.FC = () => {
         capacidade: turmaData.capacidade,
       };
 
-      await TurmaService.createTurma(novaTurma);
+      await TurmaService.cadastrar(novaTurma);
 
       alert("Turma cadastrada com sucesso!");
 

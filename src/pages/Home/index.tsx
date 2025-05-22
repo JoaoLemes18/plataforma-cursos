@@ -55,6 +55,7 @@ const DashboardCards: React.FC = () => {
 
 const Home: React.FC = () => {
   console.count("Render do Home");
+
   return (
     <div className="home-container">
       <div className="user-info-container">

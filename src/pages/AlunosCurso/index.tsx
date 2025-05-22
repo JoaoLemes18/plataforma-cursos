@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
-import { getMatriculas, Matricula } from "../../services/MatriculaService";
+import MatriculaService from "../../services/MatriculaService";
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
 import { FaArrowLeft } from "react-icons/fa";
 import "./style.scss";
+
+// Declare o tipo Matricula aqui (ajuste conforme necessário)
+interface Matricula {
+  id: number;
+  alunoNome?: string;
+  cursoNomeDaTurma?: string;
+  status: number;
+}
 
 const ListarMatriculas: React.FC = () => {
   const [matriculas, setMatriculas] = useState<Matricula[]>([]);
@@ -13,7 +21,8 @@ const ListarMatriculas: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const matriculasData = await getMatriculas();
+        // Chame o método correto dentro do serviço
+        const matriculasData = await MatriculaService.getAll();
         setMatriculas(matriculasData);
       } catch (error) {
         console.error("Erro ao carregar matrículas:", error);
