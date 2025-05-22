@@ -7,6 +7,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.scss";
 
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+
 import InputFormatado from "../../components/InputFormatado";
 import PasswordInput from "../../components/PasswordInput";
 
@@ -99,11 +102,11 @@ const Cadastro: React.FC = () => {
         <h2 className="title">Criar usuário</h2>
         <p className="subtitle">Preencha os dados necessários para começar</p>
 
-        <input
+        <Input
           name="nome"
-          className={`input ${erros.nome ? "erro" : ""}`}
           placeholder="Seu nome completo"
           value={formData.nome}
+          erro={erros.nome}
           onChange={(e) => handleChange("nome", e.target.value)}
         />
 
@@ -155,20 +158,20 @@ const Cadastro: React.FC = () => {
           onChange={handleChange}
         />
 
-        <button className="button" onClick={handleRegister} disabled={loading}>
-          {loading ? "Cadastrando..." : "Criar conta"}
-        </button>
+        <Button onClick={handleRegister} disabled={loading} loading={loading}>
+          Criar conta
+        </Button>
 
         <div className="divider">
           <span className="linkText">Já tem uma conta?</span>
         </div>
 
-        <button
-          className="secondaryButton"
+        <Button
+          variant="secondary"
           onClick={() => (window.location.href = "/login")}
         >
           Fazer login
-        </button>
+        </Button>
       </div>
     </div>
   );

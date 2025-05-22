@@ -6,18 +6,19 @@ import { useUser } from "../../context/UserContext";
 import { toast } from "react-toastify";
 import "./styles.scss";
 
+import Input from "../../components/Input";
+import PasswordInput from "../../components/PasswordInput";
+
 const Login: React.FC = () => {
   const [formState, setFormState] = useState({
     email: "",
     password: "",
-    showPassword: false,
     loading: false,
     emailErro: false,
     senhaErro: false,
   });
 
-  const { email, password, showPassword, loading, emailErro, senhaErro } =
-    formState;
+  const { email, password, loading, emailErro, senhaErro } = formState;
 
   const setField = (field: keyof typeof formState, value: any) => {
     setFormState((prev) => ({ ...prev, [field]: value }));
@@ -84,29 +85,23 @@ const Login: React.FC = () => {
         <h2 className="title">Bem-vindo de volta!</h2>
         <p className="subtitle">Acesse sua conta</p>
 
-        <input
+        <Input
           type="email"
-          className={`input ${emailErro ? "erro" : ""}`}
           placeholder="seu@email.com"
           value={email}
+          erro={emailErro}
           onChange={(e) => setField("email", e.target.value)}
         />
 
-        <div className="passwordWrapper">
-          <input
-            type={showPassword ? "text" : "password"}
-            className={`input ${senhaErro ? "erro" : ""}`}
-            placeholder="Senha"
-            value={password}
-            onChange={(e) => setField("password", e.target.value)}
-          />
-          <span
-            className="togglePassword"
-            onClick={() => setField("showPassword", !showPassword)}
-          >
-            👁️
-          </span>
-        </div>
+        <PasswordInput
+          name="password"
+          placeholder="Senha"
+          value={password}
+          erro={senhaErro}
+          onChange={(name, value) =>
+            setField(name as keyof typeof formState, value)
+          }
+        />
 
         <button className="button" onClick={handleLogin} disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
