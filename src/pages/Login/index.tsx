@@ -1,36 +1,49 @@
 import React, { useState } from "react";
 import { loginPessoa } from "../../services/AutenticacaoService";
-import { useUser } from "../../Contexts/UserContext";
+import { validarLoginPessoa } from "../../utils/validacoes";
+
+import { useUser } from "../../context/UserContext";
 import { toast } from "react-toastify";
 import "./styles.scss";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [emailErro, setEmailErro] = useState(false);
-  const [senhaErro, setSenhaErro] = useState(false);
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+    showPassword: false,
+    loading: false,
+    emailErro: false,
+    senhaErro: false,
+  });
+
+  const { email, password, showPassword, loading, emailErro, senhaErro } =
+    formState;
+
+  const setField = (field: keyof typeof formState, value: any) => {
+    setFormState((prev) => ({ ...prev, [field]: value }));
+  };
 
   const { setUsuario } = useUser();
 
   const handleLogin = async () => {
-    setEmailErro(false);
-    setSenhaErro(false);
+    setField("emailErro", false);
+    setField("senhaErro", false);
 
-    if (!email.trim()) {
-      setEmailErro(true);
-      toast.error("Preencha o e-mail.");
+    const { valido, erros } = validarLoginPessoa({ email, senha: password });
+
+    if (!valido) {
+      if (erros.email) {
+        setField("emailErro", true);
+        toast.error("E-mail inválido.");
+      }
+      if (erros.senha) {
+        setField("senhaErro", true);
+        toast.error("Senha não pode ser vazia.");
+      }
       return;
     }
 
-    if (!password.trim()) {
-      setSenhaErro(true);
-      toast.error("Preencha a senha.");
-      return;
-    }
-
-    setLoading(true);
+    setField("loading", true);
 
     try {
       const response = await loginPessoa({ email, senha: password });
@@ -61,7 +74,7 @@ const Login: React.FC = () => {
       console.error("Erro no login:", err);
       toast.error("Erro ao realizar login. Tente novamente.");
     } finally {
-      setLoading(false);
+      setField("loading", false);
     }
   };
 
@@ -76,10 +89,7 @@ const Login: React.FC = () => {
           className={`input ${emailErro ? "erro" : ""}`}
           placeholder="seu@email.com"
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setEmailErro(false);
-          }}
+          onChange={(e) => setField("email", e.target.value)}
         />
 
         <div className="passwordWrapper">
@@ -88,14 +98,11 @@ const Login: React.FC = () => {
             className={`input ${senhaErro ? "erro" : ""}`}
             placeholder="Senha"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setSenhaErro(false);
-            }}
+            onChange={(e) => setField("password", e.target.value)}
           />
           <span
             className="togglePassword"
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() => setField("showPassword", !showPassword)}
           >
             👁️
           </span>

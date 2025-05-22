@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PessoaService, { Pessoa } from "../../services/PessoaService"; // Ajustado para PessoaService
+import PessoaService, { Pessoa } from "../../services/PessoaService"; 
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
 import { FaArrowLeft } from "react-icons/fa";

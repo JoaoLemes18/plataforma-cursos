@@ -1,6 +1,6 @@
 import React from "react";
 import AppRoutes from "./routes";
-import { UserProvider } from "./Contexts/UserContext";
+import { UserProvider } from "./context/UserContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/main.scss";

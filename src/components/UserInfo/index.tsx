@@ -1,5 +1,5 @@
 import { FaUser } from "react-icons/fa";
-import { useUser } from "../../Contexts/UserContext";
+import { useUser } from "../../context/UserContext";
 import "./styles.scss";
 
 const tipoMap: { [key: number]: string } = {
@@ -32,7 +32,10 @@ const UserInfo = () => {
         <p className="user-code">
           <span style={{ color: "#000" }}>Seu nível de acesso é:</span>{" "}
           <span style={{ color: "#f05623" }}>
-            {usuario ? tipoMap[usuario.tipoUsuario || 0] || `Tipo ${usuario.tipoUsuario}` : "Desconhecido"}
+            {usuario
+              ? tipoMap[usuario.tipoUsuario || 0] ||
+                `Tipo ${usuario.tipoUsuario}`
+              : "Desconhecido"}
           </span>
         </p>
       </div>

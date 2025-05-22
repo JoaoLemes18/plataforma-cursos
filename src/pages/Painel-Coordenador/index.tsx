@@ -25,6 +25,12 @@ const PainelCoordenador: React.FC = () => {
           to="/listar-alunos"
         />
         <CardLink
+          title="Ver Professores"
+          icon="🧑‍🏫"
+          description="Visualize, edite e organize os dados dos professores cadastrados."
+          to="/listar-professores"
+        />
+        <CardLink
           title="Cursos"
           icon="📚"
           description="Crie, edite e gerencie os cursos oferecidos pela instituição."

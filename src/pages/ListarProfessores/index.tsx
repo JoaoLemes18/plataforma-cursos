@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProfessores, Professor } from "../../services/ProfessorService";
+import PessoaService, { Pessoa } from "../../services/PessoaService";
 import { getCursos, Curso } from "../../services/CursoService";
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
@@ -8,14 +8,15 @@ import { FaArrowLeft } from "react-icons/fa";
 import "./styles.scss";
 
 const ListarProfessores: React.FC = () => {
-  const [professores, setProfessores] = useState<Professor[]>([]);
+  const [professores, setProfessores] = useState<Pessoa[]>([]);
   const [cursos, setCursos] = useState<Curso[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const professoresData = await getProfessores();
+        const professoresData = await PessoaService.getProfessores();
         const cursosData = await getCursos();
+
         setProfessores(professoresData);
         setCursos(cursosData);
       } catch (error) {
@@ -25,30 +26,26 @@ const ListarProfessores: React.FC = () => {
     fetchData();
   }, []);
 
-  // Criar um mapa de cursos para facilitar a busca pelo nome
   const cursoMap = cursos.reduce((map, curso) => {
-    map[curso.id] = `${curso.id} - ${curso.nome}`; // Exibe ID + Nome do curso
+    map[curso.id] = `${curso.id} - ${curso.nome}`;
     return map;
   }, {} as Record<number, string>);
 
-  // Atualizar os professores para incluir o nome do curso ao invés do ID
   const professoresComCurso = professores.map((prof) => ({
     ...prof,
-    cursoNome: cursoMap[prof.cursoId] || "Não informado",
+    cursoNome: cursoMap[prof.cursoId] || "Não informado", // Assumindo que Pessoa tem cursoId
   }));
 
   const colunas = [
     { title: "Nome", field: "nome" },
-    { title: "Especialidade", field: "areaEspecializacao" },
     { title: "Email", field: "email" },
-    { title: "Idade", field: "idade" },
-    { title: "Curso", field: "cursoNome" }, // Agora exibe corretamente "ID - Nome do Curso"
+    { title: "Curso", field: "cursoNome" },
   ];
 
   return (
     <div className="page-listar-professores">
       <div className="header">
-        <Link to="/professores" className="back-button">
+        <Link to="/painel-coordenador" className="back-button" title="Voltar">
           <FaArrowLeft />
         </Link>
       </div>

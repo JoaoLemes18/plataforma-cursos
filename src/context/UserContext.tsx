@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 
 interface Usuario {
   nome?: string;
@@ -36,11 +42,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  return (
-    <UserContext.Provider value={{ usuario, setUsuario }}>
-      {children}
-    </UserContext.Provider>
-  );
+  const value = useMemo(() => ({ usuario, setUsuario }), [usuario]);
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => useContext(UserContext);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CursoService, { Curso } from "../../services/CursoService"; // Importando CursoService
+import CursoService, { Curso } from "../../services/CursoService"; 
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
 import { FaArrowLeft } from "react-icons/fa";
@@ -12,7 +12,7 @@ const ListarCursos: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const cursosData = await CursoService.getAll(); // Usando o método getAll do CursoService
+        const cursosData = await CursoService.getAll(); 
         setCursos(cursosData);
       } catch (error) {
         console.error("Erro ao carregar cursos:", error);

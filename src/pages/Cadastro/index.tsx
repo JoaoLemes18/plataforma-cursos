@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { cadastrarPessoa } from "../../services/AutenticacaoService";
+import { useNavigate } from "react-router-dom";
+import { validarCadastroPessoa } from "../../utils/validacoes";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.scss";
+
+import InputFormatado from "../../components/InputFormatado";
+import PasswordInput from "../../components/PasswordInput";
 
 const tipoMap: { [key: number]: string } = {
   1: "Aluno",
@@ -32,72 +38,22 @@ const Cadastro: React.FC = () => {
     senha: "",
   });
 
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [erros, setErros] = useState<{ [key in keyof FormData]?: boolean }>({});
+  const navigate = useNavigate();
 
-  const formatarCPF = (cpf: string): string => {
-    cpf = cpf.replace(/\D/g, "").slice(0, 11);
-    if (cpf.length <= 3) return cpf;
-    if (cpf.length <= 6) return `${cpf.slice(0, 3)}.${cpf.slice(3)}`;
-    if (cpf.length <= 9)
-      return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6)}`;
-    return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(
-      6,
-      9
-    )}-${cpf.slice(9)}`;
-  };
-
-  const formatarTelefone = (telefone: string): string => {
-    telefone = telefone.replace(/\D/g, "").slice(0, 11);
-    if (telefone.length <= 2) return `(${telefone}`;
-    if (telefone.length <= 6)
-      return `(${telefone.slice(0, 2)}) ${telefone.slice(2)}`;
-    if (telefone.length <= 10)
-      return `(${telefone.slice(0, 2)}) ${telefone.slice(
-        2,
-        6
-      )}-${telefone.slice(6)}`;
-    return `(${telefone.slice(0, 2)}) ${telefone.slice(2, 7)}-${telefone.slice(
-      7
-    )}`;
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    let formattedValue = value;
-
-    if (name === "cpf") {
-      formattedValue = formatarCPF(value);
-    } else if (name === "telefone") {
-      formattedValue = formatarTelefone(value);
-    }
-
-    setFormData({
-      ...formData,
-      [name]: name === "tipo" ? parseInt(value) : formattedValue,
-    });
-
+  const handleChange = (name: keyof FormData, value: string | number) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "tipo" ? Number(value) : value,
+    }));
     setErros((prev) => ({ ...prev, [name]: false }));
   };
 
   const validarCampos = () => {
-    const novosErros: { [key in keyof FormData]?: boolean } = {};
-    if (!formData.nome.trim()) novosErros.nome = true;
-    if (!formData.cpf.match(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/))
-      novosErros.cpf = true;
-    if (
-      !formData.email.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)
-    )
-      novosErros.email = true;
-    if (!formData.telefone.match(/^\(\d{2}\) \d{4,5}-\d{4}$/))
-      novosErros.telefone = true;
-    if (!formData.senha.trim()) novosErros.senha = true;
-
-    setErros(novosErros);
-    return Object.keys(novosErros).length === 0;
+    const { valido, erros } = validarCadastroPessoa(formData);
+    setErros(erros);
+    return valido;
   };
 
   const handleRegister = async () => {
@@ -124,7 +80,7 @@ const Cadastro: React.FC = () => {
           "Cadastro realizado com sucesso! Faça login para continuar."
         );
         setTimeout(() => {
-          window.location.href = "/login";
+          navigate("/login");
         }, 1500);
       } else {
         toast.error("Erro ao cadastrar. Tente novamente.");
@@ -148,28 +104,33 @@ const Cadastro: React.FC = () => {
           className={`input ${erros.nome ? "erro" : ""}`}
           placeholder="Seu nome completo"
           value={formData.nome}
-          onChange={handleChange}
+          onChange={(e) => handleChange("nome", e.target.value)}
         />
-        <input
+
+        <InputFormatado
           name="cpf"
-          className={`input ${erros.cpf ? "erro" : ""}`}
           placeholder="000.000.000-00"
           value={formData.cpf}
+          erro={erros.cpf}
+          tipo="cpf"
           onChange={handleChange}
         />
-        <input
+
+        <InputFormatado
           name="email"
-          type="email"
-          className={`input ${erros.email ? "erro" : ""}`}
           placeholder="seu@email.com"
           value={formData.email}
+          erro={erros.email}
+          tipo="email"
           onChange={handleChange}
         />
-        <input
+
+        <InputFormatado
           name="telefone"
-          className={`input ${erros.telefone ? "erro" : ""}`}
           placeholder="(00) 00000-0000"
           value={formData.telefone}
+          erro={erros.telefone}
+          tipo="telefone"
           onChange={handleChange}
         />
 
@@ -177,7 +138,7 @@ const Cadastro: React.FC = () => {
           name="tipo"
           className="input"
           value={formData.tipo}
-          onChange={handleChange}
+          onChange={(e) => handleChange("tipo", Number(e.target.value))}
         >
           {Object.entries(tipoMap).map(([key, label]) => (
             <option key={key} value={key}>
@@ -186,22 +147,13 @@ const Cadastro: React.FC = () => {
           ))}
         </select>
 
-        <div className="passwordWrapper">
-          <input
-            type={showPassword ? "text" : "password"}
-            name="senha"
-            className={`input ${erros.senha ? "erro" : ""}`}
-            placeholder="Senha"
-            value={formData.senha}
-            onChange={handleChange}
-          />
-          <span
-            className="togglePassword"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            👁️
-          </span>
-        </div>
+        <PasswordInput
+          name="senha"
+          placeholder="Senha"
+          value={formData.senha}
+          erro={erros.senha}
+          onChange={handleChange}
+        />
 
         <button className="button" onClick={handleRegister} disabled={loading}>
           {loading ? "Cadastrando..." : "Criar conta"}
