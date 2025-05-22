@@ -5,6 +5,7 @@ import {
   listarComunicadosAtivos,
   Comunicado,
 } from "../../services/ComunicadoService";
+import "./styles.scss";
 
 const rotasPermitidas = [
   "/painel-aluno",
@@ -69,13 +70,23 @@ const ComunicadoPopup: React.FC = () => {
   };
 
   const modalContent = (
-    <div className="comunicado-overlay" role="dialog" aria-modal="true">
-      <div className="comunicado-modal">
+    <div
+      className="comunicado-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="comunicado-titulo"
+      aria-describedby="comunicado-mensagem"
+      onClick={fecharPopup} // Fecha clicando fora do modal
+    >
+      <div
+        className="comunicado-modal"
+        onClick={(e) => e.stopPropagation()} // Previne fechamento ao clicar dentro
+      >
         <div className="comunicado-label">Comunicado:</div>
 
         <div className="comunicado-conteudo">
-          <h2>{comunicado.titulo}</h2>
-          <p>{comunicado.mensagem}</p>
+          <h2 id="comunicado-titulo">{comunicado.titulo}</h2>
+          <p id="comunicado-mensagem">{comunicado.mensagem}</p>
           {imagem && (
             <img
               src={urlImagem}

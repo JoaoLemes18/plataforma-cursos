@@ -1,4 +1,3 @@
-// src/services/CursoService.ts
 import { api } from "..";
 import type { Curso } from "../../types";
 

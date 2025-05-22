@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import createMatricula from "../../services/MatriculaService";
 import PessoaService from "../../services/PessoaService";
 import TurmaService from "../../services/TurmaService";
+import CursoService from "../../services/CursoService"; // IMPORTAÇÃO NOVA
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import "./style.scss";
@@ -11,10 +12,16 @@ interface Pessoa {
   nome: string;
 }
 
+interface Curso {
+  id: number;
+  nome: string;
+}
+
 interface Turma {
   id: number;
   nome: string;
-  cursoNome?: string;
+  cursoId: number;
+  cursoNome?: string; // vai preencher depois
 }
 
 interface NovaMatriculaState {
@@ -25,26 +32,39 @@ interface NovaMatriculaState {
 
 const CadastrarMatricula: React.FC = () => {
   const [newMatricula, setNewMatricula] = useState<NovaMatriculaState>({
-    pessoaId: "", // ajustado aqui também
+    pessoaId: "",
     turmaId: "",
     status: 1,
   });
 
   const [alunos, setAlunos] = useState<Pessoa[]>([]);
   const [turmas, setTurmas] = useState<Turma[]>([]);
+  const [cursos, setCursos] = useState<Curso[]>([]); // estado para cursos
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const alunosData = await PessoaService.getAlunos();
         const turmasData = await TurmaService.getAll();
+        const cursosData = await CursoService.getAll();
+
+        // associar cursoNome em cada turma
+        const turmasComCursoNome = turmasData.map((turma) => {
+          const curso = cursosData.find((c) => c.id === turma.cursoId);
+          return {
+            ...turma,
+            cursoNome: curso ? curso.nome : "",
+          };
+        });
 
         setAlunos(alunosData);
-        setTurmas(turmasData);
+        setCursos(cursosData);
+        setTurmas(turmasComCursoNome);
       } catch (error) {
-        console.error("Erro ao carregar alunos e turmas:", error);
+        console.error("Erro ao carregar alunos, turmas e cursos:", error);
       }
     };
+
     fetchData();
   }, []);
 
@@ -72,7 +92,7 @@ const CadastrarMatricula: React.FC = () => {
       });
 
       alert("Matrícula realizada com sucesso!");
-      setNewMatricula({ pessoaId: "", turmaId: "", status: 1 }); // resetou o campo também
+      setNewMatricula({ pessoaId: "", turmaId: "", status: 1 });
     } catch (error) {
       console.error("Erro ao cadastrar matrícula:", error);
       alert("Erro ao cadastrar matrícula. Tente novamente.");
@@ -120,7 +140,7 @@ const CadastrarMatricula: React.FC = () => {
             <option value="">Selecione uma turma</option>
             {turmas.map((turma) => (
               <option key={turma.id} value={turma.id}>
-                {turma.nome} {turma.cursoNome ? `- ${turma.cursoNome}` : ""}
+                {turma.cursoNome} - {turma.nome}
               </option>
             ))}
           </select>
