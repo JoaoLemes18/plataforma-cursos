@@ -1,72 +1,27 @@
 // src/services/CursoService.ts
-
 import { api } from "..";
+import type { Curso } from "../../types";
 
-// Tipagem do Curso
-export interface Curso {
-  id: number;
-  nome: string;
-  descricao: string;
-  duracaoEmHoras: string;
-}
-
-// Service para Cursos
 const CursoService = {
-  // Buscar todos os cursos
   getAll: async (): Promise<Curso[]> => {
-    try {
-      const response = await api.get<Curso[]>("/curso");
-      return response.data;
-    } catch (error) {
-      console.error("Erro ao buscar cursos:", error);
-      throw error;
-    }
+    const response = await api.get<Curso[]>("/curso");
+    return response.data;
   },
 
-  // Buscar um curso pelo ID
-  getById: async (id: number): Promise<Curso> => {
-    try {
-      const response = await api.get<Curso>(`/curso/${id}`);
-      return response.data;
-    } catch (error) {
-      console.error(`Erro ao buscar curso com ID ${id}:`, error);
-      throw error;
-    }
+  cadastrar: async (curso: Omit<Curso, "id">): Promise<any> => {
+    const response = await api.post("/curso", curso);
+    return response.data;
   },
 
-  // Criar um novo curso
-  create: async (curso: Omit<Curso, "id">): Promise<Curso> => {
-    try {
-      const response = await api.post<Curso>("/curso", curso);
-      return response.data;
-    } catch (error) {
-      console.error("Erro ao criar curso:", error);
-      throw error;
-    }
+  editar: async (curso: Curso): Promise<any> => {
+    const response = await api.put(`/curso/${curso.id}`, curso);
+    return response.data;
   },
 
-  // Atualizar um curso existente
-  update: async (id: number, curso: Omit<Curso, "id">): Promise<Curso> => {
-    try {
-      const response = await api.put<Curso>(`/curso/${id}`, curso);
-      return response.data;
-    } catch (error) {
-      console.error(`Erro ao atualizar curso com ID ${id}:`, error);
-      throw error;
-    }
-  },
-
-  // Deletar um curso
-  delete: async (id: number): Promise<void> => {
-    try {
-      await api.delete(`/curso/${id}`);
-    } catch (error) {
-      console.error(`Erro ao excluir curso com ID ${id}:`, error);
-      throw error;
-    }
+  excluir: async (id: number): Promise<any> => {
+    const response = await api.delete(`/curso/${id}`);
+    return response.data;
   },
 };
-
-export const getCursos = CursoService.getAll;
 
 export default CursoService;

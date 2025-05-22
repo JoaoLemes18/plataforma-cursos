@@ -9,8 +9,10 @@ import "./styles.scss";
 import Input from "../../components/Input";
 import PasswordInput from "../../components/PasswordInput";
 
+import { FormDataLogin } from "../../types";
+
 const Login: React.FC = () => {
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<FormDataLogin>({
     email: "",
     password: "",
     loading: false,
@@ -20,7 +22,7 @@ const Login: React.FC = () => {
 
   const { email, password, loading, emailErro, senhaErro } = formState;
 
-  const setField = (field: keyof typeof formState, value: any) => {
+  const setField = (field: keyof FormDataLogin, value: any) => {
     setFormState((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -99,7 +101,7 @@ const Login: React.FC = () => {
           value={password}
           erro={senhaErro}
           onChange={(name, value) =>
-            setField(name as keyof typeof formState, value)
+            setField(name as keyof FormDataLogin, value)
           }
         />
 

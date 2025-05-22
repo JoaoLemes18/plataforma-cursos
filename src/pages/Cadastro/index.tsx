@@ -13,6 +13,8 @@ import Button from "../../components/Button";
 import InputFormatado from "../../components/InputFormatado";
 import PasswordInput from "../../components/PasswordInput";
 
+import { FormData, FormErrors } from "../../types";
+
 const tipoMap: { [key: number]: string } = {
   1: "Aluno",
   2: "Professor",
@@ -21,15 +23,6 @@ const tipoMap: { [key: number]: string } = {
   5: "Financeiro",
   6: "Master",
 };
-
-interface FormData {
-  nome: string;
-  cpf: string;
-  email: string;
-  telefone: string;
-  tipo: number;
-  senha: string;
-}
 
 const Cadastro: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -42,7 +35,7 @@ const Cadastro: React.FC = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [erros, setErros] = useState<{ [key in keyof FormData]?: boolean }>({});
+  const [erros, setErros] = useState<FormErrors>({});
   const navigate = useNavigate();
 
   const handleChange = (name: keyof FormData, value: string | number) => {
