@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { loginPessoa } from "../../services/AutenticacaoService";
 import { useUser } from "../../Contexts/UserContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import { toast } from "react-toastify";
 import "./styles.scss";
 
 const Login: React.FC = () => {
@@ -13,62 +11,44 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [emailErro, setEmailErro] = useState(false);
   const [senhaErro, setSenhaErro] = useState(false);
+
   const { setUsuario } = useUser();
 
   const handleLogin = async () => {
-    // Resetando erros
     setEmailErro(false);
     setSenhaErro(false);
-
-    let temErro = false;
 
     if (!email.trim()) {
       setEmailErro(true);
       toast.error("Preencha o e-mail.");
-      temErro = true;
+      return;
     }
 
     if (!password.trim()) {
       setSenhaErro(true);
       toast.error("Preencha a senha.");
-      temErro = true;
+      return;
     }
 
-    if (temErro) return;
-
-    const payload = { email, senha: password };
     setLoading(true);
 
     try {
-      const response = await loginPessoa(payload);
+      const response = await loginPessoa({ email, senha: password });
 
       if (response && response.tipoUsuario !== undefined) {
         setUsuario(response);
         toast.success("Login realizado com sucesso!");
 
-        let rota = "/home";
-        switch (response.tipoUsuario) {
-          case 1:
-            rota = "/painel-aluno";
-            break;
-          case 2:
-            rota = "/painel-professor";
-            break;
-          case 3:
-            rota = "/painel-coordenador";
-            break;
-          case 4:
-            rota = "/painel-administrativo";
-            break;
-          case 5:
-            rota = "/painel-financeiro";
-            break;
-          case 6:
-            rota = "/home";
-            break;
-          default:
-            rota = "/home";
-        }
+        const rotas: { [key: number]: string } = {
+          1: "/painel-aluno",
+          2: "/painel-professor",
+          3: "/painel-coordenador",
+          4: "/painel-administrativo",
+          5: "/painel-financeiro",
+          6: "/home",
+        };
+
+        const rota = rotas[response.tipoUsuario] || "/home";
 
         setTimeout(() => {
           window.location.href = rota;
@@ -87,10 +67,10 @@ const Login: React.FC = () => {
 
   return (
     <div className="authContainer">
-      <ToastContainer position="top-right" autoClose={3000} />
       <div className="card">
         <h2 className="title">Bem-vindo de volta!</h2>
         <p className="subtitle">Acesse sua conta</p>
+
         <input
           type="email"
           className={`input ${emailErro ? "erro" : ""}`}
@@ -101,6 +81,7 @@ const Login: React.FC = () => {
             setEmailErro(false);
           }}
         />
+
         <div className="passwordWrapper">
           <input
             type={showPassword ? "text" : "password"}
@@ -119,12 +100,15 @@ const Login: React.FC = () => {
             👁️
           </span>
         </div>
+
         <button className="button" onClick={handleLogin} disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
         </button>
+
         <div className="divider">
           <span className="linkText">Novo por aqui?</span>
         </div>
+
         <button
           className="secondaryButton"
           onClick={() => (window.location.href = "/")}

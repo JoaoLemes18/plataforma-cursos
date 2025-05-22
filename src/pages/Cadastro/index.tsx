@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { cadastrarPessoa } from "../../services/AutenticacaoService";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.scss";
 
@@ -139,7 +139,6 @@ const Cadastro: React.FC = () => {
 
   return (
     <div className="authContainer">
-      <ToastContainer position="top-right" autoClose={3000} />
       <div className="card">
         <h2 className="title">Criar usuário</h2>
         <p className="subtitle">Preencha os dados necessários para começar</p>

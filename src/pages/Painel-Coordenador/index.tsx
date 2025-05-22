@@ -19,10 +19,10 @@ const PainelCoordenador: React.FC = () => {
 
       <div className="card-container">
         <CardLink
-          title="Alunos"
+          title="Ver Alunos"
           icon="👨‍🎓"
           description="Visualize, edite e organize os dados dos alunos cadastrados."
-          to="/alunos"
+          to="/listar-alunos"
         />
         <CardLink
           title="Cursos"
@@ -31,10 +31,10 @@ const PainelCoordenador: React.FC = () => {
           to="/cursos"
         />
         <CardLink
-          title="Professores"
-          icon="👩‍🏫"
-          description="Veja os professores cadastrados e seus respectivos cursos."
-          to="/professores"
+          title="Turma"
+          icon="👥"
+          description="Crie, edite e gerencia as turmas que vão ser criadas."
+          to="/turmas"
         />
         <CardLink
           title="Matrícula"

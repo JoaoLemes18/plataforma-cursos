@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { getMatriculas, Matricula } from "../../services/MatriculaService";
-import AlunoService from "../../services/AlunoService";
-import CursoService from "../../services/CursoService";
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
 import { FaArrowLeft } from "react-icons/fa";
@@ -9,30 +7,16 @@ import "./style.scss";
 
 const ListarMatriculas: React.FC = () => {
   const [matriculas, setMatriculas] = useState<Matricula[]>([]);
-  const [alunos, setAlunos] = useState<Record<number, string>>({});
-  const [cursos, setCursos] = useState<string[]>([]);
   const [filtroCurso, setFiltroCurso] = useState<string>("");
   const [filtroStatus, setFiltroStatus] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [matriculasData, alunosData, cursosData] = await Promise.all([
-          getMatriculas(),
-          AlunoService.getAll(),
-          CursoService.getAll(),
-        ]);
-
+        const matriculasData = await getMatriculas();
         setMatriculas(matriculasData);
-        setAlunos(
-          alunosData.reduce(
-            (map, aluno) => ({ ...map, [aluno.id]: aluno.nome }),
-            {}
-          )
-        );
-        setCursos(cursosData.map((curso) => curso.nome));
       } catch (error) {
-        console.error("Erro ao carregar dados:", error);
+        console.error("Erro ao carregar matrículas:", error);
       }
     };
 
@@ -43,17 +27,25 @@ const ListarMatriculas: React.FC = () => {
     return status === 1 ? "Ativa" : status === 2 ? "Trancada" : "Cancelada";
   };
 
+  // Extrair lista de cursos únicos para o filtro
+  const cursosUnicos = Array.from(
+    new Set(matriculas.map((m) => m.cursoNomeDaTurma))
+  ).filter(Boolean);
+
+  // Filtrar matrículas conforme filtros
   const matriculasFiltradas = matriculas.filter((matricula) => {
-    const cursoMatch = filtroCurso === "" || matricula.curso === filtroCurso;
+    const cursoMatch =
+      filtroCurso === "" || matricula.cursoNomeDaTurma === filtroCurso;
     const statusMatch =
       filtroStatus === "" || matricula.status === Number(filtroStatus);
     return cursoMatch && statusMatch;
   });
 
+  // Mapear para adicionar textos e classes de status para a tabela
   const matriculasComNomes = matriculasFiltradas.map((matricula) => ({
     ...matricula,
-    alunoNome: matricula.aluno || "Desconhecido",
-    cursoNome: matricula.curso || "Desconhecido",
+    aluno: matricula.alunoNome || "Desconhecido",
+    curso: matricula.cursoNomeDaTurma || "Desconhecido",
     statusTexto: getStatusTexto(matricula.status),
     statusClasse:
       matricula.status === 1
@@ -71,7 +63,7 @@ const ListarMatriculas: React.FC = () => {
         </Link>
       </div>
 
-      <h2>Lista de Matrículas</h2>
+      <h2>Alunos por curso</h2>
 
       {/* Filtros */}
       <div className="filtros">
@@ -80,8 +72,8 @@ const ListarMatriculas: React.FC = () => {
           onChange={(e) => setFiltroCurso(e.target.value)}
         >
           <option value="">Todos os Cursos</option>
-          {cursos.map((curso, index) => (
-            <option key={index} value={curso}>
+          {cursosUnicos.map((curso) => (
+            <option key={curso} value={curso}>
               {curso}
             </option>
           ))}

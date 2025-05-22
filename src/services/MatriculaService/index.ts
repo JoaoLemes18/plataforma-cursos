@@ -2,19 +2,19 @@ import { api } from "..";
 
 // Tipagem da Matrícula
 export interface Matricula {
-  statusTexto: any;
-  alunoNome: any;
-  cursoNome: any;
   id: number;
+  alunoNome: string;
+  turmaNome: string;
   alunoId: number;
-  cursoId: number;
+  turmaId: number;
   status: number;
   dataMatricula: string;
 }
 
+// Tipagem para criar nova matrícula
 export interface NovaMatricula {
-  alunoId: number;
-  cursoId: number;
+  pessoaId: number; // antes alunoId
+  turmaId: number;
   status: number;
 }
 
@@ -47,7 +47,15 @@ export const createMatricula = async (
   matricula: NovaMatricula
 ): Promise<Matricula | null> => {
   try {
-    const response = await api.post<Matricula>("/matricula", matricula);
+    const matriculaParaCriar = {
+      id: 0,
+      ...matricula,
+      dataMatricula: new Date().toISOString(),
+    };
+    const response = await api.post<Matricula>(
+      "/matricula",
+      matriculaParaCriar
+    );
     return response.data;
   } catch (error) {
     console.error("Erro ao cadastrar matrícula:", error);
@@ -58,7 +66,7 @@ export const createMatricula = async (
 // 📌 Atualizar matrícula completa (PUT)
 export const updateMatricula = async (
   id: number,
-  matricula: Partial<Matricula>
+  matricula: Matricula
 ): Promise<Matricula | null> => {
   try {
     const response = await api.put<Matricula>(`/matricula/${id}`, matricula);
@@ -69,7 +77,7 @@ export const updateMatricula = async (
   }
 };
 
-// 📌 Atualizar **somente o status** da matrícula (PATCH)
+// 📌 Atualizar somente o status da matrícula (PATCH)
 export const updateMatriculaStatus = async (
   id: number,
   status: number

@@ -4,45 +4,30 @@ import {
   updateMatriculaStatus,
   Matricula,
 } from "../../services/MatriculaService";
-import AlunoService from "../../services/AlunoService";
-import CursoService from "../../services/CursoService";
 import { Link } from "react-router-dom";
 import Tabela from "../../components/Tabela";
 import { FaArrowLeft, FaEdit } from "react-icons/fa";
 import Modal from "../../components/Modal";
 import "./style.scss";
 
+interface MatriculaComNomes extends Matricula {
+  alunoNome: string;
+  turmaNome: string;
+  cursoNomeDaTurma: string;
+}
+
 const ListarMatriculas: React.FC = () => {
-  const [matriculas, setMatriculas] = useState<Matricula[]>([]);
-  const [alunos, setAlunos] = useState<Record<number, string>>({});
-  const [cursos, setCursos] = useState<Record<number, string>>({});
+  const [matriculas, setMatriculas] = useState<MatriculaComNomes[]>([]);
   const [modalAberto, setModalAberto] = useState(false);
   const [matriculaSelecionada, setMatriculaSelecionada] =
-    useState<Matricula | null>(null);
+    useState<MatriculaComNomes | null>(null);
   const [novoStatus, setNovoStatus] = useState<number>(1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [matriculasData, alunosData, cursosData] = await Promise.all([
-          getMatriculas(),
-          AlunoService.getAll(),
-          CursoService.getAll(),
-        ]);
-
+        const matriculasData = await getMatriculas();
         setMatriculas(matriculasData);
-        setAlunos(
-          alunosData.reduce(
-            (map, aluno) => ({ ...map, [aluno.id]: aluno.nome }),
-            {}
-          )
-        );
-        setCursos(
-          cursosData.reduce(
-            (map, curso) => ({ ...map, [curso.id]: curso.nome }),
-            {}
-          )
-        );
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       }
@@ -55,7 +40,7 @@ const ListarMatriculas: React.FC = () => {
     return status === 1 ? "Ativa" : status === 2 ? "Trancada" : "Cancelada";
   };
 
-  const abrirModalEdicao = (matricula: Matricula) => {
+  const abrirModalEdicao = (matricula: MatriculaComNomes) => {
     setMatriculaSelecionada(matricula);
     setNovoStatus(matricula.status);
     setModalAberto(true);
@@ -79,19 +64,6 @@ const ListarMatriculas: React.FC = () => {
     }
   };
 
-  const matriculasComNomes = matriculas.map((matricula) => ({
-    ...matricula,
-    alunoNome: alunos[matricula.alunoId] || "Desconhecido",
-    cursoNome: cursos[matricula.cursoId] || "Desconhecido",
-    statusTexto: getStatusTexto(matricula.status),
-    statusClasse:
-      matricula.status === 1
-        ? "status-ativa"
-        : matricula.status === 2
-        ? "status-trancada"
-        : "status-cancelada",
-  }));
-
   return (
     <div className="page-listar-matriculas">
       <div className="header">
@@ -106,14 +78,23 @@ const ListarMatriculas: React.FC = () => {
         <Tabela
           colunas={[
             { title: "ID", field: "id" },
-            { title: "Aluno", field: "aluno" },
-            { title: "Curso", field: "curso" },
+            { title: "Aluno", field: "alunoNome" },
+            { title: "Turma", field: "turmaNome" },
+            { title: "Curso", field: "cursoNomeDaTurma" },
             {
               title: "Status",
               field: "status",
               render: (row) => (
-                <span className={`status-badge ${row.statusClasse}`}>
-                  {row.statusTexto}
+                <span
+                  className={`status-badge ${
+                    row.status === 1
+                      ? "status-ativa"
+                      : row.status === 2
+                      ? "status-trancada"
+                      : "status-cancelada"
+                  }`}
+                >
+                  {getStatusTexto(row.status)}
                   <button
                     onClick={() => abrirModalEdicao(row)}
                     className="edit-button"
@@ -124,7 +105,7 @@ const ListarMatriculas: React.FC = () => {
               ),
             },
           ]}
-          dados={matriculasComNomes}
+          dados={matriculas}
         />
       </div>
 

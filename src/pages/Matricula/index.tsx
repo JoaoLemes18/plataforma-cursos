@@ -1,69 +1,77 @@
 import { useState, useEffect } from "react";
 import { createMatricula } from "../../services/MatriculaService";
-import AlunoService from "../../services/AlunoService";
-import CursoService from "../../services/CursoService";
+import PessoaService from "../../services/PessoaService";
+import TurmaService from "../../services/TurmaService";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import "./style.scss";
 
-interface Aluno {
+interface Pessoa {
   id: number;
   nome: string;
 }
 
-interface Curso {
+interface Turma {
   id: number;
   nome: string;
+  cursoNome?: string;
+}
+
+interface NovaMatriculaState {
+  pessoaId: string; // mudou de alunoId para pessoaId
+  turmaId: string;
+  status: number;
 }
 
 const CadastrarMatricula: React.FC = () => {
-  const [newMatricula, setNewMatricula] = useState({
-    alunoId: "",
-    cursoId: "",
-    status: "1",
+  const [newMatricula, setNewMatricula] = useState<NovaMatriculaState>({
+    pessoaId: "", // ajustado aqui também
+    turmaId: "",
+    status: 1,
   });
 
-  const [alunos, setAlunos] = useState<Aluno[]>([]);
-  const [cursos, setCursos] = useState<Curso[]>([]);
+  const [alunos, setAlunos] = useState<Pessoa[]>([]);
+  const [turmas, setTurmas] = useState<Turma[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const alunosData = await AlunoService.getAll();
-        const cursosData = await CursoService.getAll();
+        const alunosData = await PessoaService.getAlunos();
+        const turmasData = await TurmaService.getTurmas();
 
         setAlunos(alunosData);
-        setCursos(cursosData);
+        setTurmas(turmasData);
       } catch (error) {
-        console.error("Erro ao carregar alunos e cursos:", error);
+        console.error("Erro ao carregar alunos e turmas:", error);
       }
     };
     fetchData();
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setNewMatricula({ ...newMatricula, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setNewMatricula((prev) => ({
+      ...prev,
+      [name]: name === "status" ? Number(value) : value,
+    }));
   };
 
   const handleAddMatricula = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMatricula.alunoId || !newMatricula.cursoId) {
+
+    if (newMatricula.pessoaId === "" || newMatricula.turmaId === "") {
       alert("Preencha todos os campos corretamente!");
       return;
     }
 
-    // Convertendo status para número e formatando corretamente
-    const matriculaData = {
-      alunoId: Number(newMatricula.alunoId),
-      cursoId: Number(newMatricula.cursoId),
-      status: Number(newMatricula.status),
-    };
-    console.log("Dados corrigidos para API:", matriculaData); // Debug
-
     try {
-      await createMatricula(matriculaData);
+      await createMatricula({
+        pessoaId: Number(newMatricula.pessoaId), // aqui mudou
+        turmaId: Number(newMatricula.turmaId),
+        status: newMatricula.status,
+      });
       alert("Matrícula realizada com sucesso!");
-      setNewMatricula({ alunoId: "", cursoId: "", status: "1" });
+      setNewMatricula({ pessoaId: "", turmaId: "", status: 1 }); // resetou o campo também
     } catch (error) {
       console.error("Erro ao cadastrar matrícula:", error);
       alert("Erro ao cadastrar matrícula. Tente novamente.");
@@ -84,11 +92,13 @@ const CadastrarMatricula: React.FC = () => {
       <h2>Cadastrar Nova Matrícula</h2>
       <div className="form-container">
         <form onSubmit={handleAddMatricula}>
-          <label>Aluno</label>
+          <label htmlFor="pessoaId">Aluno</label>
           <select
-            name="alunoId"
-            value={newMatricula.alunoId}
+            id="pessoaId"
+            name="pessoaId"
+            value={newMatricula.pessoaId}
             onChange={handleInputChange}
+            required
           >
             <option value="">Selecione um aluno</option>
             {alunos.map((aluno) => (
@@ -98,29 +108,35 @@ const CadastrarMatricula: React.FC = () => {
             ))}
           </select>
 
-          <label>Curso</label>
+          <label htmlFor="turmaId">Turma</label>
           <select
-            name="cursoId"
-            value={newMatricula.cursoId}
+            id="turmaId"
+            name="turmaId"
+            value={newMatricula.turmaId}
             onChange={handleInputChange}
+            required
           >
-            <option value="">Selecione um curso</option>
-            {cursos.map((curso) => (
-              <option key={curso.id} value={curso.id}>
-                {curso.nome}
+            <option value="">Selecione uma turma</option>
+            {turmas.map((turma) => (
+              <option key={turma.id} value={turma.id}>
+                {turma.nome} {turma.cursoNome ? `- ${turma.cursoNome}` : ""}
               </option>
             ))}
           </select>
-          <label>Status</label>
+
+          <label htmlFor="status">Status</label>
           <select
+            id="status"
             name="status"
             value={newMatricula.status}
             onChange={handleInputChange}
+            required
           >
-            <option value="1">Ativa</option>
-            <option value="2">Trancada</option>
-            <option value="3">Cancelada</option>
+            <option value={1}>Ativa</option>
+            <option value={2}>Trancada</option>
+            <option value={3}>Cancelada</option>
           </select>
+
           <button type="submit">Cadastrar</button>
         </form>
       </div>
