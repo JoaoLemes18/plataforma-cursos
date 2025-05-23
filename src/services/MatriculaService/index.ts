@@ -1,5 +1,5 @@
 import { api } from "..";
-import type { Matricula, NovaMatricula } from "../../types";
+import type { Matricula, NovaMatricula, Material } from "../../types";
 
 const MatriculaService = {
   getAll: async (): Promise<Matricula[]> => {
@@ -19,6 +19,16 @@ const MatriculaService = {
 
   cancelar: async (id: number): Promise<any> => {
     const response = await api.delete(`/matricula/${id}`);
+    return response.data;
+  },
+
+  listarMateriaisDoAlunoNaTurma: async (
+    pessoaId: number,
+    turmaId: number
+  ): Promise<Material[]> => {
+    const response = await api.get<Material[]>(
+      `/matricula/pessoa/${pessoaId}/turma/${turmaId}/materiais`
+    );
     return response.data;
   },
 };

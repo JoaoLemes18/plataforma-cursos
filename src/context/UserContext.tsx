@@ -7,8 +7,10 @@ import React, {
 } from "react";
 
 interface Usuario {
-  nome?: string;
-  tipoUsuario?: number;
+  id: number;
+  nome: string;
+  tipoUsuario: number;
+  turmaId: number;
 }
 
 interface UserContextData {

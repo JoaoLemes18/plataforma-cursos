@@ -14,12 +14,6 @@ const PainelProfessor: React.FC = () => {
 
       <div className="card-container">
         <CardLink
-          title="Lançar Notas"
-          icon="📝"
-          description="Registre e edite as notas dos seus alunos."
-          to="/professor/notas"
-        />
-        <CardLink
           title="Minhas Turmas"
           icon="👥"
           description="Veja as turmas que você está lecionando e os alunos matriculados."
@@ -29,7 +23,7 @@ const PainelProfessor: React.FC = () => {
           title="Materiais"
           icon="📂"
           description="Gerencie e disponibilize materiais de apoio para os alunos."
-          to="/professor/materiais"
+          to="/materiais"
         />
         <CardLink
           title="Meus Cursos"

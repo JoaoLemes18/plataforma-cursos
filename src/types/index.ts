@@ -107,3 +107,11 @@ export interface NovaTurma {
   cursoId: number;
   professorId: number;
 }
+
+export interface Material {
+  id: number;
+  nome: string;
+  caminhoArquivo: string;
+  dataEnvio: string; // ISO string
+  turmaId: number;
+}

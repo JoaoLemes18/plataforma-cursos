@@ -21,6 +21,15 @@ const TurmaService = {
     const response = await api.delete(`/turma/${id}`);
     return response.data;
   },
+  getMateriaisDaTurma: async (
+    pessoaId: number,
+    turmaId: number
+  ): Promise<Material[]> => {
+    const response = await api.get<Material[]>(
+      `/matricula/pessoa/${pessoaId}/turma/${turmaId}/materiais`
+    );
+    return response.data;
+  },
 };
 
 export default TurmaService;

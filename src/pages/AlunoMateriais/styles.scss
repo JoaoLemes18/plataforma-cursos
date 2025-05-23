@@ -1,0 +1,94 @@
+.page-aluno-materiais {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .back-button {
+      text-decoration: none;
+      color: #fff;
+      background: #f45f2f;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: 0.3s;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background: #e04e1f;
+      }
+    }
+  }
+
+  h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgb(0 0 0 / 0.05);
+
+      strong {
+        color: #f45f2f; /* cor principal do layout */
+        font-size: 1.1rem;
+      }
+
+      p {
+        color: #666;
+        margin: 5px 0;
+
+        strong {
+          color: #333;
+        }
+      }
+
+      button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #f45f2f;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #e04e1f;
+        }
+      }
+
+      span {
+        margin-top: 10px;
+        display: inline-block;
+        color: #999;
+        font-style: italic;
+      }
+    }
+  }
+
+  /* Mensagens de erro e loading */
+  div {
+    text-align: center;
+    color: #f45f2f;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+}

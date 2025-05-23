@@ -17,7 +17,7 @@ const PainelAluno: React.FC = () => {
           title="Material de Apoio"
           icon="📘"
           description="Acesse materiais de estudo disponibilizados pelos professores."
-          to="/aluno/materiais"
+          to="/alunos-materiais"
         />
         <CardLink
           title="Contrato"
