@@ -82,9 +82,6 @@ const CadastrarComunicado: React.FC = () => {
         <Link to="/painel-coordenador" className="back-button" title="Voltar">
           <FaArrowLeft />
         </Link>
-        <Link to="/listar-comunicados" className="view-button">
-          Ver Comunicados
-        </Link>
       </div>
 
       <h2>Cadastrar Novo Comunicado</h2>

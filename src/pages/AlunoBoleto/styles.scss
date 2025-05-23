@@ -1,4 +1,4 @@
-.page-aluno-materiais {
+.page-boleto-aluno {
   padding: 20px;
   font-family: Arial, sans-serif;
   max-width: 800px;
@@ -45,7 +45,7 @@
       box-shadow: 0 2px 5px rgb(0 0 0 / 0.05);
 
       strong {
-        color: #f45f2f; /* cor principal do layout */
+        color: #f45f2f;
         font-size: 1.1rem;
       }
 
@@ -73,21 +73,6 @@
           background-color: #e04e1f;
         }
       }
-
-      span {
-        margin-top: 10px;
-        display: inline-block;
-        color: #999;
-        font-style: italic;
-      }
     }
-  }
-
-  /* Mensagens de erro e loading */
-  div {
-    text-align: center;
-    color: #f45f2f;
-    font-weight: 600;
-    margin-top: 20px;
   }
 }

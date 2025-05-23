@@ -80,7 +80,7 @@ const AlunoMateriais: React.FC = () => {
         </Link>
       </div>
 
-      <h2>Materiais da Turma {turmaId}</h2>
+      <h1>Meus Materiais</h1>
       <ul>
         {materiais.map((material) => {
           const fileName = material.caminhoArquivo

@@ -51,7 +51,7 @@ const ListarProfessores: React.FC = () => {
   const colunas = [
     { title: "Nome", field: "nome" },
     { title: "Email", field: "email" },
-    { title: "Curso", field: "cursoNome" },
+    { title: "Telefone", field: "telefone" },
   ];
 
   return (

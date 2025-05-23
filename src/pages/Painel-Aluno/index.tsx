@@ -23,19 +23,13 @@ const PainelAluno: React.FC = () => {
           title="Contrato"
           icon="📄"
           description="Visualize o contrato da sua matrícula."
-          to="/aluno/contrato"
+          to="/alunos-contrato"
         />
         <CardLink
           title="Boletos"
           icon="💳"
           description="Veja e baixe seus boletos de pagamento."
-          to="/aluno/boletos"
-        />
-        <CardLink
-          title="Meus Cursos"
-          icon="🎓"
-          description="Veja os cursos em que você está matriculado."
-          to="/aluno/cursos"
+          to="/aluno-boletos"
         />
       </div>
     </div>
