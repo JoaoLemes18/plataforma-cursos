@@ -27,7 +27,7 @@ Frontend desenvolvido em **React.js + TypeScript** para a plataforma de cursos t
 - Context API para gerenciamento de estado
 - React Router para navegação
 - SCSS para estilização
-- Vite ou Create React App (dependendo do setup)
+- Vite
 
 ---
 
