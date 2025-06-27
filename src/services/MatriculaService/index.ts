@@ -31,6 +31,12 @@ const MatriculaService = {
     );
     return response.data;
   },
+
+  // ✅ Novo método para buscar matrículas de um aluno específico
+  getByAlunoId: async (alunoId: number): Promise<Matricula[]> => {
+    const response = await api.get<Matricula[]>(`/matricula/aluno/${alunoId}`);
+    return response.data;
+  },
 };
 
 export default MatriculaService;
