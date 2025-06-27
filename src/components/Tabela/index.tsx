@@ -3,7 +3,7 @@ import "./styles.scss";
 
 interface Coluna {
   title: string; // Nome do cabeçalho
-  field: string; // Nome do campo no objeto de dados
+  field?: string; // Nome do campo no objeto de dados (opcional para ações)
   render?: (row: any) => React.ReactNode; // Função para personalizar a célula
   className?: string; // Classe CSS personalizada para a célula
 }
@@ -11,11 +11,18 @@ interface Coluna {
 interface TabelaProps {
   colunas: Coluna[];
   dados: any[];
+  onEdit?: (row: any) => void; // Função para editar
+  onDelete?: (row: any) => void; // Função para excluir
 }
 
-const Tabela: React.FC<TabelaProps> = ({ colunas, dados }) => {
+const Tabela: React.FC<TabelaProps> = ({
+  colunas,
+  dados,
+  onEdit,
+  onDelete,
+}) => {
   const renderCelula = (coluna: Coluna, row: any) => {
-    return coluna.render ? coluna.render(row) : row[coluna.field];
+    return coluna.render ? coluna.render(row) : row[coluna.field || ""];
   };
 
   return (
@@ -28,6 +35,7 @@ const Tabela: React.FC<TabelaProps> = ({ colunas, dados }) => {
                 {coluna.title}
               </th>
             ))}
+            {(onEdit || onDelete) && <th>Ações</th>}
           </tr>
         </thead>
         <tbody>
@@ -39,11 +47,31 @@ const Tabela: React.FC<TabelaProps> = ({ colunas, dados }) => {
                     {renderCelula(coluna, item)}
                   </td>
                 ))}
+                {(onEdit || onDelete) && (
+                  <td>
+                    {onEdit && (
+                      <button
+                        className="btn-editar"
+                        onClick={() => onEdit(item)}
+                      >
+                        Editar
+                      </button>
+                    )}
+                    {onDelete && (
+                      <button
+                        className="btn-excluir"
+                        onClick={() => onDelete(item)}
+                      >
+                        Excluir
+                      </button>
+                    )}
+                  </td>
+                )}
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={colunas.length} className="no-data">
+              <td colSpan={colunas.length + 1} className="no-data">
                 Nenhum dado disponível
               </td>
             </tr>

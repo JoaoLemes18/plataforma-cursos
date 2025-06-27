@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import createMatricula from "../../services/MatriculaService";
 import PessoaService from "../../services/PessoaService";
 import TurmaService from "../../services/TurmaService";
-import CursoService from "../../services/CursoService"; // IMPORTAÇÃO NOVA
+import CursoService from "../../services/CursoService";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import "./style.scss";
@@ -21,11 +21,13 @@ interface Turma {
   id: number;
   nome: string;
   cursoId: number;
-  cursoNome?: string; // vai preencher depois
+  capacidade: number;
+  matriculados: number;
+  cursoNome?: string;
 }
 
 interface NovaMatriculaState {
-  pessoaId: string; // mudou de alunoId para pessoaId
+  pessoaId: string;
   turmaId: string;
   status: number;
 }
@@ -39,7 +41,7 @@ const CadastrarMatricula: React.FC = () => {
 
   const [alunos, setAlunos] = useState<Pessoa[]>([]);
   const [turmas, setTurmas] = useState<Turma[]>([]);
-  const [cursos, setCursos] = useState<Curso[]>([]); // estado para cursos
+  const [cursos, setCursos] = useState<Curso[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +50,6 @@ const CadastrarMatricula: React.FC = () => {
         const turmasData = await TurmaService.getAll();
         const cursosData = await CursoService.getAll();
 
-        // associar cursoNome em cada turma
         const turmasComCursoNome = turmasData.map((turma) => {
           const curso = cursosData.find((c) => c.id === turma.cursoId);
           return {
@@ -99,6 +100,11 @@ const CadastrarMatricula: React.FC = () => {
     }
   };
 
+  const getVagasDisponiveis = (turma: Turma) => {
+    const vagas = turma.capacidade - turma.matriculados;
+    return vagas >= 0 ? vagas : 0;
+  };
+
   return (
     <div className="page-cadastrar-matricula">
       <div className="header">
@@ -138,11 +144,15 @@ const CadastrarMatricula: React.FC = () => {
             required
           >
             <option value="">Selecione uma turma</option>
-            {turmas.map((turma) => (
-              <option key={turma.id} value={turma.id}>
-                {turma.cursoNome} - {turma.nome}
-              </option>
-            ))}
+            {turmas.map((turma) => {
+              const vagas = getVagasDisponiveis(turma);
+              return (
+                <option key={turma.id} value={turma.id} disabled={vagas === 0}>
+                  {turma.cursoNome} - {turma.nome} | Vagas: {vagas}
+                  {vagas === 0 ? " (sem vagas)" : ""}
+                </option>
+              );
+            })}
           </select>
 
           <label htmlFor="status">Status</label>

@@ -26,7 +26,7 @@ const CadastrarCurso: React.FC = () => {
     }
 
     try {
-      await CursoService.create(newCurso); // Usando o método create diretamente
+      await CursoService.cadastrar(newCurso); // Usando o método create diretamente
       alert("Curso cadastrado com sucesso!");
       setNewCurso({
         nome: "",

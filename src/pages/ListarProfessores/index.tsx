@@ -1,58 +1,54 @@
 import { useEffect, useState } from "react";
-import PessoaService from "../../services/PessoaService";
-import CursoService from "../../services/CursoService";
 import { Link } from "react-router-dom";
-import Tabela from "../../components/Tabela";
 import { FaArrowLeft } from "react-icons/fa";
+import Tabela from "../../components/Tabela";
+import PessoaService, { Pessoa } from "../../services/PessoaService";
+import ModalEditar from "../../components/EditarModal"; // importa o modal
 
 import "./styles.scss";
 
-interface Pessoa {
-  id: number;
-  nome: string;
-  email: string;
-  cursoId?: number;
-}
-
-interface Curso {
-  id: number;
-  nome: string;
-}
-
 const ListarProfessores: React.FC = () => {
   const [professores, setProfessores] = useState<Pessoa[]>([]);
-  const [cursos, setCursos] = useState<Curso[]>([]);
+  const [pessoaEditando, setPessoaEditando] = useState<Pessoa | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const professoresData = await PessoaService.getProfessores();
-        const cursosData = await CursoService.getAll();
-
         setProfessores(professoresData);
-        setCursos(cursosData);
       } catch (error) {
-        console.error("Erro ao carregar professores e cursos:", error);
+        console.error("Erro ao carregar professores:", error);
       }
     }
     fetchData();
   }, []);
-
-  const cursoMap = cursos.reduce((map, curso) => {
-    map[curso.id] = `${curso.id} - ${curso.nome}`;
-    return map;
-  }, {} as Record<number, string>);
-
-  const professoresComCurso = professores.map((prof) => ({
-    ...prof,
-    cursoNome: prof.cursoId ? cursoMap[prof.cursoId] : "Não informado",
-  }));
 
   const colunas = [
     { title: "Nome", field: "nome" },
     { title: "Email", field: "email" },
     { title: "Telefone", field: "telefone" },
   ];
+
+  const handleEdit = (professor: Pessoa) => {
+    console.log("Editar professor:", professor);
+    setPessoaEditando(professor); // abre modal com dados do professor selecionado
+  };
+
+  const handleCloseModal = () => {
+    setPessoaEditando(null);
+  };
+
+  const handleSavePessoa = async (dadosAtualizados: Pessoa) => {
+    try {
+      await PessoaService.editar(dadosAtualizados.id, dadosAtualizados);
+      setProfessores((prev) =>
+        prev.map((p) => (p.id === dadosAtualizados.id ? dadosAtualizados : p))
+      );
+      handleCloseModal();
+    } catch (error) {
+      console.error("Erro ao salvar alterações:", error);
+    }
+  };
 
   return (
     <div className="page-listar-professores">
@@ -65,8 +61,17 @@ const ListarProfessores: React.FC = () => {
       <h2>Lista de Professores</h2>
 
       <div className="content">
-        <Tabela colunas={colunas} dados={professoresComCurso} />
+        <Tabela colunas={colunas} dados={professores} onEdit={handleEdit} />
       </div>
+
+      {/* Modal de edição */}
+      {pessoaEditando && (
+        <ModalEditar
+          pessoa={pessoaEditando}
+          onClose={handleCloseModal}
+          onSave={handleSavePessoa}
+        />
+      )}
     </div>
   );
 };
