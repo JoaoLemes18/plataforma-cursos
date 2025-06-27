@@ -2,7 +2,7 @@
 
 **Status do projeto:** 🚧 Em construção 🚧
 
-Frontend desenvolvido em **React.js + TypeScript** para a plataforma de cursos, oferecendo interfaces para alunos, professores, coordenadores e outros usuários interagirem com o sistema.
+Frontend desenvolvido em **React.js + TypeScript** para a plataforma de cursos técnicos, oferecendo interfaces para alunos, professores, coordenadores e outros usuários interagirem com o sistema.
 
 ---
 
@@ -27,7 +27,7 @@ Frontend desenvolvido em **React.js + TypeScript** para a plataforma de cursos, 
 - Context API para gerenciamento de estado
 - React Router para navegação
 - SCSS para estilização
-- Vite ou Create React App (dependendo do setup)
+- Vite
 
 ---
 
