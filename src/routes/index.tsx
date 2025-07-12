@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-
+import { TipoUsuario } from "../types";
+import PrivateRoute from "./PrivateRoute";
 import Cadastro from "../pages/Cadastro";
 import Login from "../pages/Login";
 
@@ -51,11 +52,42 @@ const AppRoutes: React.FC = () => {
 
       <Route path="/aluno-boletos" element={<AlunoBoletos />} />
 
-      <Route path="/painel-aluno" element={<PainelAluno />} />
-      <Route path="/painel-coordenador" element={<PainelCoordenador />} />
-      <Route path="/painel-professor" element={<PainelProfessor />} />
-      <Route path="/painel-financeiro" element={<PainelFinanceiro />} />
+      <Route
+        path="/painel-aluno"
+        element={
+          <PrivateRoute tiposPermitidos={[TipoUsuario.Aluno]}>
+            <PainelAluno />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/painel-coordenador"
+        element={
+          <PrivateRoute tiposPermitidos={[TipoUsuario.Coordenador]}>
+            <PainelCoordenador />
+          </PrivateRoute>
+        }
+      />
 
+      <Route
+        path="/painel-professor"
+        element={
+          <PrivateRoute tiposPermitidos={[TipoUsuario.Professor]}>
+            <PainelProfessor />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/painel-financeiro"
+        element={
+          <PrivateRoute
+            tiposPermitidos={[TipoUsuario.Administrativo, TipoUsuario.Master]}
+          >
+            <PainelFinanceiro />
+          </PrivateRoute>
+        }
+      />
       <Route path="/acesso-negado" element={<AcessoNegado />} />
     </Routes>
   );

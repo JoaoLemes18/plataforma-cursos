@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { loginPessoa } from "../../services/AutenticacaoService";
 import { validarLoginPessoa } from "../../utils/validacoes";
 
@@ -21,12 +22,12 @@ const Login: React.FC = () => {
   });
 
   const { email, password, loading, emailErro, senhaErro } = formState;
-
   const setField = (field: keyof FormDataLogin, value: any) => {
     setFormState((prev) => ({ ...prev, [field]: value }));
   };
 
   const { setUsuario } = useUser();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     setField("emailErro", false);
@@ -52,23 +53,21 @@ const Login: React.FC = () => {
       const response = await loginPessoa({ email, senha: password });
 
       if (response && response.tipoUsuario !== undefined) {
-        setUsuario(response);
+        setUsuario(response); // Salva no contexto + sessionStorage
         toast.success("Login realizado com sucesso!");
 
+        // Mapeamento de tipoUsuario para rota
         const rotas: { [key: number]: string } = {
           1: "/painel-aluno",
           2: "/painel-professor",
           3: "/painel-coordenador",
           4: "/painel-administrativo",
           5: "/painel-financeiro",
-          6: "/home",
         };
 
         const rota = rotas[response.tipoUsuario] || "/home";
 
-        setTimeout(() => {
-          window.location.href = rota;
-        }, 1500);
+        navigate(rota); // Redireciona sem recarregar
       } else {
         console.error("Resposta inválida:", response);
         toast.error("Email ou senha inválidos.");
@@ -113,10 +112,7 @@ const Login: React.FC = () => {
           <span className="linkText">Novo por aqui?</span>
         </div>
 
-        <button
-          className="secondaryButton"
-          onClick={() => (window.location.href = "/")}
-        >
+        <button className="secondaryButton" onClick={() => navigate("/")}>
           Cadastrar
         </button>
       </div>

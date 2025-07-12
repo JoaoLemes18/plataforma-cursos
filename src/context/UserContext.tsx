@@ -16,23 +16,27 @@ interface Usuario {
 interface UserContextData {
   usuario: Usuario | null;
   setUsuario: (usuario: Usuario | null) => void;
+  loading: boolean;
 }
 
 const UserContext = createContext<UserContextData>({
   usuario: null,
   setUsuario: () => {},
+  loading: true,
 });
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [usuario, setUsuarioState] = useState<Usuario | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const usuarioStorage = sessionStorage.getItem("usuarioLogado");
     if (usuarioStorage) {
       setUsuarioState(JSON.parse(usuarioStorage));
     }
+    setLoading(false); // liberação de carregamento
   }, []);
 
   const setUsuario = (usuario: Usuario | null) => {
@@ -44,7 +48,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const value = useMemo(() => ({ usuario, setUsuario }), [usuario]);
+  const value = useMemo(
+    () => ({ usuario, setUsuario, loading }),
+    [usuario, loading]
+  );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

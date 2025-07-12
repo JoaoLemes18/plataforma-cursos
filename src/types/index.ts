@@ -115,3 +115,11 @@ export interface Material {
   dataEnvio: string; // ISO string
   turmaId: number;
 }
+
+export enum TipoUsuario {
+  Aluno = 1,
+  Professor = 2,
+  Coordenador = 3,
+  Administrativo = 4,
+  Master = 5,
+}
