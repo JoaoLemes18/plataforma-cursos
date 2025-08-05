@@ -5,7 +5,6 @@ import Tabela from "../../components/Tabela";
 import Modal from "../../components/Modal";
 import TurmaService, { Turma } from "../../services/TurmaService";
 import CursoService from "../../services/CursoService";
-import "./style.scss";
 
 const ListarTurmas: React.FC = () => {
   const [turmas, setTurmas] = useState<Turma[]>([]);

@@ -15,9 +15,11 @@ const UserInfo = () => {
   const { usuario, setUsuario } = useUser();
 
   const handleLogout = () => {
-    setUsuario(null); // limpa usuário do contexto e sessionStorage
-    sessionStorage.removeItem("comunicadoVisualizado"); // limpa o comunicado visualizado
-    window.location.href = "/login"; // redireciona para login
+    setUsuario(null);
+    sessionStorage.removeItem("comunicadoVisualizado"); 
+    sessionStorage.removeItem("tokenJWT");
+
+    window.location.href = "/login"; 
   };
 
   return (

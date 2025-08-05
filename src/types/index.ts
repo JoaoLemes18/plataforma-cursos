@@ -117,7 +117,7 @@ export interface Material {
 }
 
 export enum TipoUsuario {
-  Aluno = 1,
+  Aluno = 1,   
   Professor = 2,
   Coordenador = 3,
   Administrativo = 4,

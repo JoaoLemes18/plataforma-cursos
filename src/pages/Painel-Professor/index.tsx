@@ -17,7 +17,7 @@ const PainelProfessor: React.FC = () => {
           title="Minhas Turmas"
           icon="👥"
           description="Veja as turmas que você está lecionando e os alunos matriculados."
-          to="/professor/turmas"
+          to="/listar-turmas"
         />
         <CardLink
           title="Materiais"
@@ -29,7 +29,7 @@ const PainelProfessor: React.FC = () => {
           title="Meus Cursos"
           icon="📚"
           description="Consulte os cursos em que você está atuando como professor."
-          to="/professor/cursos"
+          to=""
         />
       </div>
     </div>

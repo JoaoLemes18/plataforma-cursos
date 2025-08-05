@@ -53,7 +53,11 @@ const Login: React.FC = () => {
       const response = await loginPessoa({ email, senha: password });
 
       if (response && response.tipoUsuario !== undefined) {
-        setUsuario(response); // Salva no contexto + sessionStorage
+        const { token, ...dadosUsuario } = response;
+
+        sessionStorage.setItem("tokenJWT", token); 
+        setUsuario(dadosUsuario);
+
         toast.success("Login realizado com sucesso!");
 
         // Mapeamento de tipoUsuario para rota
